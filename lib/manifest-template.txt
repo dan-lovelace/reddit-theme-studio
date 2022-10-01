@@ -1,0 +1,19 @@
+{
+  "name": "%NAME%",
+  "version": "%VERSION%",
+  "description": "%DESCRIPTION%",
+  "homepage_url": "%HOMEPAGE_URL%",
+  "manifest_version": %MANIFEST_VERSION%,
+  "icons": {
+    "128": "logo_128.png"
+  },
+  "%ACTION%": {
+    "default_popup": "index.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.reddit.com/*"],
+      "js": ["content-script.js"]
+    }
+  ]
+}
