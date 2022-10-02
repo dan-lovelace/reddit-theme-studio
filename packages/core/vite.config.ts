@@ -15,6 +15,7 @@ export default defineConfig({
     }),
   ],
   build: {
+    minify: false, // TODO: remove
     assetsDir: "",
     rollupOptions: {
       input: "src/main.tsx",

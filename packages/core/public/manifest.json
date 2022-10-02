@@ -10,6 +10,9 @@
   "action": {
     "default_popup": "index.html"
   },
+  "background": {
+    "service_worker": "background.js"
+  },
   "content_scripts": [
     {
       "matches": ["https://*.reddit.com/*"],
@@ -17,5 +20,6 @@
       "js": ["content-script.js"],
       "run_at": "document_start"
     }
-  ]
+  ],
+  "permissions": ["declarativeContent"]
 }

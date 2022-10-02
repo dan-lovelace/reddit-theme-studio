@@ -1,11 +1,33 @@
 import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import { matchRoutes } from "react-router-dom";
+import browser from "webextension-polyfill";
 
 import App from "./App";
+import { store } from "./app/store";
 import { getConfig } from "./lib/config";
-import { getJsonPath } from "./lib/routes";
-import "./main.css";
+import { ROUTES } from "./lib/routes";
+import "./main.scss";
+
+browser.runtime.onMessage.addListener((message) => {
+  console.log("message!", message);
+  const styleEl = document.getElementById("rju-style");
+
+  if (styleEl) {
+    styleEl.innerHTML = message;
+  }
+});
+
+browser.runtime.sendMessage("ShowPageAction");
 
 async function main() {
+  // make sure the current page is supported
+  if (!matchRoutes(ROUTES, window.location.pathname)) {
+    return;
+  }
+
+  const { documentElement } = document;
+
   // TODO: show loader
   const loader = document.createElement("div");
   loader.style.position = "fixed";
@@ -15,19 +37,16 @@ async function main() {
   loader.style.left = "0";
   loader.style.backgroundColor = "white";
   loader.style.zIndex = "9999";
-  document.documentElement.appendChild(loader);
+  documentElement.appendChild(loader);
 
   const config = getConfig();
-  const jsonLocation = getJsonPath(config);
-  const result = await fetch(jsonLocation);
-  const json = await result.json();
-  console.log("json", json);
+  documentElement.classList.add(config.mode);
 
-  window.onload = () => {
-    console.log("window loaded");
-  };
-
-  ReactDOM.createRoot(document.documentElement).render(<App />);
+  ReactDOM.createRoot(documentElement).render(
+    <Provider store={store}>
+      <App config={config} />
+    </Provider>
+  );
 }
 
 main();
