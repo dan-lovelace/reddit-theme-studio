@@ -1,7 +1,7 @@
+import { browser } from "@rju/core";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { matchRoutes } from "react-router-dom";
-import browser from "webextension-polyfill";
 
 import App from "./App";
 import { store } from "./app/store";

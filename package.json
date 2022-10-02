@@ -7,10 +7,11 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build && cp scripts/content-script.js dist/content-script.js",
-    "build:version": "node scripts/build.mjs",
-    "build:watch": "yarn build --watch",
+    "build": "ts-node --esm scripts/build.ts",
+    "start": "yarn start:background & yarn start:content & yarn start:popup",
+    "start:background": "yarn workspace background build:watch",
+    "start:content": "yarn workspace content build:watch",
+    "start:popup": "yarn workspace popup build:watch",
     "lint": "eslint ."
   },
   "devDependencies": {
@@ -19,7 +20,8 @@
     "eslint": "^8.24.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "ts-node": "^10.9.1"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",

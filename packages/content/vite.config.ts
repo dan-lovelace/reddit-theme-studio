@@ -20,7 +20,7 @@ export default defineConfig({
     rollupOptions: {
       input: "src/main.tsx",
       output: {
-        file: path.join(dest, "content-script.js"),
+        file: path.join(dest, "content.js"),
         dir: undefined,
         assetFileNames: "[name].[ext]",
       },

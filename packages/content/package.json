@@ -1,0 +1,32 @@
+{
+  "name": "content",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc && vite build",
+    "build:watch": "yarn build --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.8.5",
+    "@rju/core": "*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.4",
+    "react-router-dom": "^6.4.1",
+    "zod": "^3.19.1"
+  },
+  "devDependencies": {
+    "@rju/types": "*",
+    "@vitejs/plugin-react": "^2.1.0",
+    "rollup-plugin-copy": "^3.4.0",
+    "sass": "^1.55.0",
+    "typescript": "^4.8.4",
+    "vite": "^3.1.4"
+  }
+}

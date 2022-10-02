@@ -1,25 +1,25 @@
 {
+  "$schema": "https://json.schemastore.org/chrome-manifest",
   "name": "Reddit JSON UI",
   "version": "0.0.0",
   "description": "A customizable UI for Reddit's JSON pages",
   "homepage_url": "https://github.com/dan-lovelace/reddit-json-ui",
-  "manifest_version": 3,
+  "manifest_version": 2,
   "icons": {
     "128": "logo_128.png"
   },
-  "action": {
-    "default_popup": "index.html"
+  "page_action": {
+    "default_popup": "popup.html"
   },
   "background": {
-    "service_worker": "background.js"
+    "scripts": ["background.js"]
   },
   "content_scripts": [
     {
       "matches": ["https://*.reddit.com/*"],
       "css": ["main.css"],
-      "js": ["content-script.js"],
+      "js": ["content.js"],
       "run_at": "document_start"
     }
-  ],
-  "permissions": ["declarativeContent"]
+  ]
 }

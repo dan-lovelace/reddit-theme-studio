@@ -1,8 +1,8 @@
 import { useState } from "react";
 
+import { browser } from "@rju/core";
 import { highlight, languages } from "prismjs";
 import Editor from "react-simple-code-editor";
-import browser from "webextension-polyfill";
 import "prismjs/themes/prism.css";
 
 const testValue = `.post-result__title {
