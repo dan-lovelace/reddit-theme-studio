@@ -21,5 +21,6 @@
       "js": ["content.js"],
       "run_at": "document_start"
     }
-  ]
+  ],
+  "web_accessible_resources": ["reddit_logo_32.png"]
 }

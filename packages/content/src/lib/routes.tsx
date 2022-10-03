@@ -23,13 +23,5 @@ export function getJsonPath(config: TConfig) {
     location: { pathname },
   } = window;
 
-  switch (pathname) {
-    case "/":
-      return `https://${config.hostname}/r/popular.json`;
-    default: {
-      const replaced = pathname.replace(/\/$/g, "");
-
-      return `https://${config.hostname}${replaced}.json`;
-    }
-  }
+  return `//${config.hostname}${pathname}.json?limit=30`;
 }

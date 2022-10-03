@@ -2,16 +2,16 @@
   "name": "background",
   "version": "1.0.0",
   "type": "module",
-  "description": "",
+  "description": "Background script for Reddit JSON UI",
   "main": "src/index.ts",
+  "keywords": [],
+  "author": "dan-lovelace",
+  "license": "MIT",
   "scripts": {
     "build": "tsc && vite build",
     "build:watch": "yarn build --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@rju/core": "*"
   },

@@ -1,4 +1,4 @@
-import { browser } from "@rju/core";
+import { browser, STORAGE_KEYS } from "@rju/core";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { matchRoutes } from "react-router-dom";
@@ -10,15 +10,16 @@ import { ROUTES } from "./lib/routes";
 import "./main.scss";
 
 browser.runtime.onMessage.addListener((message) => {
-  console.log("message!", message);
-  const styleEl = document.getElementById("rju-style");
+  const { action, value } = message;
 
-  if (styleEl) {
-    styleEl.innerHTML = message;
+  if (action === "update-style") {
+    const styleEl = document.getElementById("rju-style");
+
+    if (styleEl) {
+      styleEl.innerHTML = value;
+    }
   }
 });
-
-browser.runtime.sendMessage("ShowPageAction");
 
 async function main() {
   // make sure the current page is supported
@@ -28,21 +29,29 @@ async function main() {
 
   const { documentElement } = document;
 
-  // TODO: show loader
-  const loader = document.createElement("div");
-  loader.style.position = "fixed";
-  loader.style.top = "0";
-  loader.style.right = "0";
-  loader.style.bottom = "0";
-  loader.style.left = "0";
-  loader.style.backgroundColor = "white";
-  loader.style.zIndex = "9999";
-  documentElement.appendChild(loader);
+  const style = document.createElement("style");
+  style.id = "rju-style";
+  documentElement.appendChild(style);
+
+  const root = document.createElement("div");
+  root.id = "root";
+  documentElement.appendChild(root);
+
+  const currentStyle = browser.storage.sync.get(STORAGE_KEYS.CURRENT_STYLE);
+  currentStyle.then((res) => {
+    if (Object.prototype.hasOwnProperty.call(res, STORAGE_KEYS.CURRENT_STYLE)) {
+      const styleEl = document.getElementById("rju-style");
+
+      if (styleEl) {
+        styleEl.innerHTML = res[STORAGE_KEYS.CURRENT_STYLE];
+      }
+    }
+  });
 
   const config = getConfig();
   documentElement.classList.add(config.mode);
 
-  ReactDOM.createRoot(documentElement).render(
+  ReactDOM.createRoot(root).render(
     <Provider store={store}>
       <App config={config} />
     </Provider>

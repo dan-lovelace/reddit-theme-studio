@@ -20,6 +20,7 @@ const PageDataResult = z.object({
     z.object({
       data: z.object({
         author: z.string(),
+        created_utc: z.number(),
         downs: z.number(),
         num_comments: z.number(),
         permalink: z.string(),
@@ -53,7 +54,7 @@ export default function App({ config }: AppProps) {
       const jsonLocation = getJsonPath(config);
       const result = await fetch(jsonLocation, {
         headers: {
-          "Cache-Control": "no-cache",
+          "Cache-Control": "max-age=300",
         },
       });
       const json = await result.json();
@@ -63,10 +64,6 @@ export default function App({ config }: AppProps) {
       console.log("parsed", parsed);
 
       dispatch(update(parsed));
-
-      const style = document.createElement("style");
-      style.id = "rju-style";
-      document.documentElement.appendChild(style);
     }
 
     init();

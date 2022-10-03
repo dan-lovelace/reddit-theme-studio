@@ -1,23 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { browser } from "@rju/core";
+import { browser, STORAGE_KEYS } from "@rju/core";
 import { highlight, languages } from "prismjs";
 import Editor from "react-simple-code-editor";
 import "prismjs/themes/prism.css";
 
-const testValue = `.post-result__title {
-  border: 1px solid red;
-}`;
-
 export default function StyleInput() {
-  const [value, setValue] = useState<string>(testValue);
+  const [value, setValue] = useState<string>("");
+
+  useEffect(() => {
+    async function init() {
+      const style = await browser.storage.sync.get(STORAGE_KEYS.CURRENT_STYLE);
+
+      if (
+        Object.prototype.hasOwnProperty.call(style, STORAGE_KEYS.CURRENT_STYLE)
+      ) {
+        setValue(style[STORAGE_KEYS.CURRENT_STYLE]);
+      }
+    }
+
+    init();
+  }, []);
 
   const handleChange = (newValue: string) => {
     setValue(newValue);
   };
 
   const handleSave = () => {
-    browser.runtime.sendMessage(value);
+    browser.runtime.sendMessage({ action: "update-style", value });
+    browser.storage.sync.set({
+      [STORAGE_KEYS.CURRENT_STYLE]: value,
+    });
   };
 
   return (
@@ -30,6 +43,7 @@ export default function StyleInput() {
         style={{
           fontFamily: '"Fira code", "Fira Mono", monospace',
           fontSize: 12,
+          marginBottom: "1rem",
         }}
       />
       <button onClick={handleSave}>Apply</button>

@@ -2,6 +2,10 @@
   "name": "popup",
   "version": "0.0.0",
   "type": "module",
+  "description": "Browser popup for Reddit JSON UI",
+  "keywords": [],
+  "author": "dan-lovelace",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

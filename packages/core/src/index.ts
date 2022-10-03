@@ -1,3 +1,2 @@
-import browserPolyfill from "webextension-polyfill";
-
-export const browser = browserPolyfill;
+export * from "./browser";
+export * from "./storage";

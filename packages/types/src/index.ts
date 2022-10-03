@@ -16,6 +16,14 @@ export type TChild = {
     author: string;
 
     /**
+     * Post creation time
+     *
+     * @example
+     * 1664604641
+     */
+    created_utc: number;
+
+    /**
      * Number of downvotes
      */
     downs: number;
