@@ -22,11 +22,18 @@
       "run_at": "document_start"
     }
   ],
-  "permissions": ["declarativeContent"],
+  "permissions": ["declarativeContent", "storage"],
   "web_accessible_resources": [
     {
       "resources": ["reddit_logo_32.png"],
       "matches": ["https://*.reddit.com/*"]
+    },
+    {
+      "resources": ["content.html"],
+      "matches": ["https://*.reddit.com/*"]
     }
-  ]
+  ],
+  "sandbox": {
+    "pages": ["content.html"]
+  }
 }

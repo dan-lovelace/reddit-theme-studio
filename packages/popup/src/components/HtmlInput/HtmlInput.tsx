@@ -10,12 +10,17 @@ export default function StyleInput() {
 
   useEffect(() => {
     async function init() {
-      const style = await browser.storage.sync.get(STORAGE_KEYS.CURRENT_STYLE);
+      const style = await browser.storage.sync.get(
+        STORAGE_KEYS.CURRENT_TEMPLATE
+      );
 
       if (
-        Object.prototype.hasOwnProperty.call(style, STORAGE_KEYS.CURRENT_STYLE)
+        Object.prototype.hasOwnProperty.call(
+          style,
+          STORAGE_KEYS.CURRENT_TEMPLATE
+        )
       ) {
-        setValue(style[STORAGE_KEYS.CURRENT_STYLE]);
+        setValue(style[STORAGE_KEYS.CURRENT_TEMPLATE]);
       }
     }
 
@@ -28,17 +33,17 @@ export default function StyleInput() {
 
   const handleSave = () => {
     browser.runtime.sendMessage({
-      action: MESSAGE_ACTIONS.UPDATE_STYLE,
+      action: MESSAGE_ACTIONS.UPDATE_TEMPLATE,
       value,
     });
     browser.storage.sync.set({
-      [STORAGE_KEYS.CURRENT_STYLE]: value,
+      [STORAGE_KEYS.CURRENT_TEMPLATE]: value,
     });
   };
 
   return (
     <>
-      <CodeEditor language="css" value={value} handleChange={handleChange} />
+      <CodeEditor language="html" value={value} handleChange={handleChange} />
       <Button variant="contained" onClick={handleSave}>
         Apply
       </Button>

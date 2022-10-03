@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="handlebars.min-v4.7.7.js"></script>
+  </head>
+  <body>
+    <script>
+      window.addEventListener("message", (event) => {
+        console.log("iframe message", event);
+        const compiled = Handlebars.compile(event.data.template)(
+          event.data.context
+        );
+
+        event.source.postMessage(
+          { action: "update-template", result: compiled },
+          event.origin
+        );
+      });
+    </script>
+  </body>
+</html>

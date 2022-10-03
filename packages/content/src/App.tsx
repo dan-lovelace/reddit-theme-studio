@@ -63,14 +63,31 @@ export default function App({ config }: AppProps) {
       const parsed = PageDataResult.parse(json.data);
       console.log("parsed", parsed);
 
+      window.addEventListener("message", (event) => {
+        console.log("content message", event);
+      });
+
       dispatch(update(parsed));
     }
 
     init();
   }, []);
 
+  const handleClick = () => {
+    const sandbox = document.getElementById("rju-sandbox") as HTMLIFrameElement;
+
+    sandbox.contentWindow?.postMessage(
+      {
+        template: "<p>{{ foo }}</p>",
+        context: { foo: "bar" },
+      },
+      "*"
+    );
+  };
+
   return (
     <PageLayout>
+      <button onClick={handleClick}>Compile template</button>
       <RouterProvider router={router} />
     </PageLayout>
   );

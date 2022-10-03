@@ -1,4 +1,4 @@
-import { browser, STORAGE_KEYS } from "@rju/core";
+import { browser, MESSAGE_ACTIONS, STORAGE_KEYS } from "@rju/core";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { matchRoutes } from "react-router-dom";
@@ -12,7 +12,7 @@ import "./main.scss";
 browser.runtime.onMessage.addListener((message) => {
   const { action, value } = message;
 
-  if (action === "update-style") {
+  if (action === MESSAGE_ACTIONS.UPDATE_STYLE) {
     const styleEl = document.getElementById("rju-style");
 
     if (styleEl) {
@@ -34,7 +34,7 @@ async function main() {
   documentElement.appendChild(style);
 
   const root = document.createElement("div");
-  root.id = "root";
+  root.id = "rju-root";
   documentElement.appendChild(root);
 
   const currentStyle = browser.storage.sync.get(STORAGE_KEYS.CURRENT_STYLE);
@@ -54,6 +54,7 @@ async function main() {
   ReactDOM.createRoot(root).render(
     <Provider store={store}>
       <App config={config} />
+      <iframe id="rju-sandbox" src={browser.runtime.getURL("content.html")} />
     </Provider>
   );
 }

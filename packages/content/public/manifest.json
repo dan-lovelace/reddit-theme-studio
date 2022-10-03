@@ -26,6 +26,13 @@
     {
       "resources": ["reddit_logo_32.png"],
       "matches": ["https://*.reddit.com/*"]
+    },
+    {
+      "resources": ["content.html"],
+      "matches": ["https://*.reddit.com/*"]
     }
-  ]
+  ],
+  "sandbox": {
+    "pages": ["content.html"]
+  }
 }

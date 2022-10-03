@@ -1,0 +1,19 @@
+#root {
+  margin: 0;
+  padding: 1rem;
+}
+
+// styles for react-simple-code-editor
+.code-editor {
+  flex: 1 1 auto;
+  font-family: "Fira code", "Fira Mono", monospace;
+  font-size: 12px;
+  margin-bottom: 0.5rem;
+
+  textarea {
+    &:focus,
+    &:focus-visible {
+      outline: none;
+    }
+  }
+}
