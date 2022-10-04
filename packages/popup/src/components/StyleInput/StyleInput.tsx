@@ -1,22 +1,24 @@
 import { useEffect, useState } from "react";
 
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { browser, MESSAGE_ACTIONS, STORAGE_KEYS } from "@rju/core";
 
 import CodeEditor from "../CodeEditor";
 
+const { CURRENT_STYLE } = STORAGE_KEYS;
+
 export default function StyleInput() {
   const [value, setValue] = useState<string>("");
+  const [initialized, setInitialized] = useState<boolean>(false);
 
   useEffect(() => {
     async function init() {
-      const style = await browser.storage.sync.get(STORAGE_KEYS.CURRENT_STYLE);
-
-      if (
-        Object.prototype.hasOwnProperty.call(style, STORAGE_KEYS.CURRENT_STYLE)
-      ) {
-        setValue(style[STORAGE_KEYS.CURRENT_STYLE]);
+      const style = await browser.storage.sync.get(CURRENT_STYLE);
+      if (Object.prototype.hasOwnProperty.call(style, CURRENT_STYLE)) {
+        setValue(style[CURRENT_STYLE]);
       }
+
+      setInitialized(true);
     }
 
     init();
@@ -38,10 +40,23 @@ export default function StyleInput() {
 
   return (
     <>
-      <CodeEditor language="css" value={value} handleChange={handleChange} />
-      <Button variant="contained" onClick={handleSave}>
-        Apply
-      </Button>
+      {initialized && (
+        <Box>
+          <CodeEditor
+            language="css"
+            value={value}
+            handleChange={handleChange}
+          />
+          <Button
+            variant="contained"
+            fullWidth
+            disabled={Boolean(!value)}
+            onClick={handleSave}
+          >
+            Apply
+          </Button>
+        </Box>
+      )}
     </>
   );
 }

@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import { highlight, languages } from "prismjs";
 import Editor from "react-simple-code-editor";
 import "prismjs/themes/prism.css";
@@ -14,12 +15,22 @@ export default function CodeEditor({
   handleChange,
 }: CodeEditorProps) {
   return (
-    <Editor
-      className="code-editor"
-      value={value}
-      onValueChange={handleChange}
-      highlight={(code) => highlight(code, languages[language], language)}
-      padding={10}
-    />
+    <Box
+      sx={{
+        border: "1px solid",
+        borderColor: "primary.main",
+        borderRadius: 1,
+        mb: 1,
+      }}
+    >
+      <Editor
+        autoFocus
+        className="code-editor"
+        value={value}
+        onValueChange={handleChange}
+        highlight={(code) => highlight(code, languages[language], language)}
+        padding={10}
+      />
+    </Box>
   );
 }

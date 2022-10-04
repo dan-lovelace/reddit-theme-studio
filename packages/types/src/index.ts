@@ -1,6 +1,8 @@
 export const MODES = ["legacy", "redesign"] as const;
+export const VIEWS = ["comments", "subreddit"] as const;
 
 export type TMode = typeof MODES[number];
+export type TView = typeof VIEWS[number];
 
 export type TChild = {
   /**
