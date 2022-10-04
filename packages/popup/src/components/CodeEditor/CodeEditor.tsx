@@ -1,7 +1,15 @@
-import { Box } from "@mui/material";
-import { highlight, languages } from "prismjs";
+import { useEffect } from "react";
+
+import { Box, useMediaQuery } from "@mui/material";
+import hljs from "highlight.js/lib/core";
+import css from "highlight.js/lib/languages/css";
+import handlebars from "highlight.js/lib/languages/handlebars";
+import xml from "highlight.js/lib/languages/xml";
 import Editor from "react-simple-code-editor";
-import "prismjs/themes/prism.css";
+
+hljs.registerLanguage("css", css);
+hljs.registerLanguage("handlebars", handlebars);
+hljs.registerLanguage("xml", xml);
 
 type CodeEditorProps = {
   language: string;
@@ -14,6 +22,20 @@ export default function CodeEditor({
   value,
   handleChange,
 }: CodeEditorProps) {
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+
+  useEffect(() => {
+    async function setStyle() {
+      if (prefersDarkMode) {
+        await import("highlight.js/styles/a11y-dark.css");
+      } else {
+        await import("highlight.js/styles/a11y-light.css");
+      }
+    }
+
+    setStyle();
+  }, []);
+
   return (
     <Box
       sx={{
@@ -28,7 +50,7 @@ export default function CodeEditor({
         className="code-editor"
         value={value}
         onValueChange={handleChange}
-        highlight={(code) => highlight(code, languages[language], language)}
+        highlight={(code) => hljs.highlight(code, { language }).value}
         padding={10}
       />
     </Box>

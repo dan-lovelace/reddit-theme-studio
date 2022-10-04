@@ -19,14 +19,13 @@
     "@emotion/styled": "^11.10.4",
     "@mui/material": "^5.10.8",
     "@rju/core": "*",
-    "prismjs": "^1.29.0",
+    "highlight.js": "^11.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-simple-code-editor": "^0.13.1",
     "sass": "^1.55.0"
   },
   "devDependencies": {
-    "@types/prismjs": "^1.26.0",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@vitejs/plugin-react": "^2.1.0",

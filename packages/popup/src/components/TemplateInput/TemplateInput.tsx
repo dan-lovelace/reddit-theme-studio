@@ -23,14 +23,17 @@ export default function StyleInput() {
 
   useEffect(() => {
     async function init() {
-      const code = await browser.storage.sync.get(CURRENT_TEMPLATE);
-      if (Object.prototype.hasOwnProperty.call(code, CURRENT_TEMPLATE)) {
-        setCodeValue(code[CURRENT_TEMPLATE]);
-      }
-
-      const view = await browser.storage.sync.get(SELECTED_VIEW);
+      const view: Record<string, TView> = await browser.storage.sync.get(
+        SELECTED_VIEW
+      );
       if (Object.prototype.hasOwnProperty.call(view, SELECTED_VIEW)) {
         setViewValue(view[SELECTED_VIEW]);
+      }
+
+      const viewTemplate = CURRENT_TEMPLATE[view[SELECTED_VIEW]];
+      const code = await browser.storage.sync.get(viewTemplate);
+      if (Object.prototype.hasOwnProperty.call(code, viewTemplate)) {
+        setCodeValue(code[viewTemplate]);
       }
 
       setInitialized(true);
@@ -49,15 +52,23 @@ export default function StyleInput() {
       value: codeValue,
     });
     browser.storage.sync.set({
-      [CURRENT_TEMPLATE]: codeValue,
+      [CURRENT_TEMPLATE[viewValue]]: codeValue,
     });
   };
 
-  const handleViewChange = (event: SelectChangeEvent) => {
+  const handleViewChange = async (event: SelectChangeEvent) => {
     const value = event.target.value as TView;
 
-    setViewValue(value as TView);
+    setViewValue(value);
     browser.storage.sync.set({ [SELECTED_VIEW]: value });
+
+    const viewTemplate = CURRENT_TEMPLATE[value];
+    const code = await browser.storage.sync.get(viewTemplate);
+    if (Object.prototype.hasOwnProperty.call(code, viewTemplate)) {
+      setCodeValue(code[viewTemplate]);
+    } else {
+      setCodeValue("");
+    }
   };
 
   return (
@@ -77,7 +88,7 @@ export default function StyleInput() {
             </Select>
           </FormControl>
           <CodeEditor
-            language="html"
+            language="handlebars"
             value={codeValue}
             handleChange={handleCodeChange}
           />
