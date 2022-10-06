@@ -10,10 +10,11 @@
     "build": "yarn clean && ts-node --esm scripts/build.ts",
     "clean": "rimraf dist",
     "lint": "eslint .",
-    "start": "yarn start:background & yarn start:content & yarn start:popup",
+    "start": "yarn clean && yarn start:background & yarn start:content & yarn start:popup & yarn start:sandbox",
     "start:background": "yarn workspace background build:watch",
     "start:content": "yarn workspace content build:watch",
-    "start:popup": "yarn workspace popup build:watch"
+    "start:popup": "yarn workspace popup build:watch",
+    "start:sandbox": "yarn workspace sandbox build:watch"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.38.1",

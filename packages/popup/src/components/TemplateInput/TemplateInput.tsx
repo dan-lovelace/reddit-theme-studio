@@ -9,7 +9,7 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-import { browser, MESSAGE_ACTIONS, STORAGE_KEYS } from "@rju/core";
+import { browser, STORAGE_KEYS } from "@rju/core";
 import { TView } from "@rju/types";
 
 import CodeEditor from "../CodeEditor";
@@ -47,10 +47,8 @@ export default function StyleInput() {
   };
 
   const handleSave = () => {
-    browser.runtime.sendMessage({
-      action: MESSAGE_ACTIONS.UPDATE_TEMPLATE,
-      value: codeValue,
-    });
+    // content window listens for and acts upon storage changes so there's no
+    // need to send a message
     browser.storage.sync.set({
       [CURRENT_TEMPLATE[viewValue]]: codeValue,
     });

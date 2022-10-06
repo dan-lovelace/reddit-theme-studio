@@ -29,11 +29,11 @@
       "matches": ["https://*.reddit.com/*"]
     },
     {
-      "resources": ["content.html"],
+      "resources": ["sandbox.html"],
       "matches": ["https://*.reddit.com/*"]
     }
   ],
   "sandbox": {
-    "pages": ["content.html"]
+    "pages": ["sandbox.html"]
   }
 }

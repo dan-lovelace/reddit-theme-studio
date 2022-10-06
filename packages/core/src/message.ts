@@ -1,4 +1,8 @@
-export const MESSAGE_ACTIONS = Object.freeze({
-  UPDATE_STYLE: "update-style",
-  UPDATE_TEMPLATE: "update-template",
-});
+import { TMessageAction } from "@rju/types";
+
+export const MESSAGE_ACTIONS: { [key: string]: TMessageAction } = Object.freeze(
+  {
+    UPDATE_STYLE: "update-style",
+    UPDATE_TEMPLATE: "update-template",
+  }
+);

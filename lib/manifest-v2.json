@@ -22,8 +22,8 @@
       "run_at": "document_start"
     }
   ],
-  "web_accessible_resources": ["reddit_logo_32.png", "content.html"],
+  "web_accessible_resources": ["reddit_logo_32.png", "sandbox.html"],
   "sandbox": {
-    "pages": ["content.html"]
+    "pages": ["sandbox.html"]
   }
 }
