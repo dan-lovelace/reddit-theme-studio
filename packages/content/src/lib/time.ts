@@ -1,5 +1,5 @@
 export function prettyDate(time: number) {
-  const date = new Date(time * 1000);
+  const date = new Date(Math.round(time) * 1000);
   const diff = (new Date().getTime() - date.getTime()) / 1000;
   const day_diff = Math.floor(diff / 86400);
 

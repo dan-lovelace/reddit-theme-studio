@@ -50,9 +50,18 @@
   padding-right: 4px;
 }
 
-.page-header__link {
+.page-header__subreddit {
+  display: flex;
+}
+
+.page-header__subreddit_link {
   color: #000000;
   text-transform: lowercase;
+}
+
+.page-header__subreddit_separator {
+  margin-left: 3px;
+  margin-right: 3px;
 }
 
 .post-list {
@@ -82,8 +91,4 @@
 
 .post-result__url {
   font-size: 8pt;
-}
-
-.post-thumbnail {
-  display: none;
 }

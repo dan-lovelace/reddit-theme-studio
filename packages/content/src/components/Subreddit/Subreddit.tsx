@@ -1,4 +1,4 @@
-import { TChild } from "@rju/types";
+import { TListingDataChild } from "@rju/types";
 import { capitalize, truncate } from "lodash";
 
 import { useAppSelector } from "../../app/hooks";
@@ -15,7 +15,7 @@ function PostResult({
     ups,
     url,
   },
-}: TChild) {
+}: TListingDataChild) {
   return (
     <li className="post-result">
       <Thumbnail thumbnail={thumbnail} />
@@ -35,6 +35,7 @@ function PostResult({
 }
 
 function Thumbnail({ thumbnail }: { thumbnail: string }) {
+  // TODO: cases for default, self, nsfw
   return (
     <div className="post-thumbnail">
       <img src={thumbnail} alt="thumbnail" />
@@ -42,8 +43,10 @@ function Thumbnail({ thumbnail }: { thumbnail: string }) {
   );
 }
 
-export default function PostList() {
-  const { children } = useAppSelector((state) => state.pageData);
+export default function Subreddit() {
+  const {
+    data: { children },
+  } = useAppSelector((state) => state.pageData);
 
   return (
     <div className="post-list">

@@ -2,7 +2,7 @@ import { browser } from "@rju/core";
 
 const redditLogo = browser.runtime.getURL("reddit_logo_32.png");
 
-const LINKS = [
+export const LINKS = [
   {
     text: "Popular",
     to: "r/popular",

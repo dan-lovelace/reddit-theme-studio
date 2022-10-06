@@ -42,6 +42,7 @@
     ],
     "rules": {
       "no-console": "warn",
+      "@typescript-eslint/no-explicit-any": "off",
       "import/order": [
         "error",
         {

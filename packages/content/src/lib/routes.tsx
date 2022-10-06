@@ -1,16 +1,16 @@
 import { TConfig } from "@rju/types";
 import { RouteObject } from "react-router-dom";
 
-import PostList from "../components/PostList";
+import Subreddit from "../components/Subreddit";
 
 export const ROUTES: RouteObject[] = [
   {
     path: "/",
-    element: <PostList />,
+    element: <Subreddit />,
   },
   {
     path: "/r/:subreddit",
-    element: <PostList />,
+    element: <Subreddit />,
   },
   {
     path: "/r/:subreddit/comments/:author/:post",
@@ -18,10 +18,10 @@ export const ROUTES: RouteObject[] = [
   },
 ];
 
-export function getJsonPath(config: TConfig) {
+export function getJsonPath({ hostname }: TConfig) {
   const {
     location: { pathname },
   } = window;
 
-  return `//${config.hostname}${pathname}.json?limit=30`;
+  return `//${hostname}${pathname}.json?limit=30`;
 }
