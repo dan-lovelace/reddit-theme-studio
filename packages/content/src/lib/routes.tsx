@@ -1,20 +1,24 @@
-import { TConfig } from "@rju/types";
+import { TConfig, TView } from "@rju/types";
 import { RouteObject } from "react-router-dom";
 
-import Subreddit from "../components/Subreddit";
+type Route = RouteObject & {
+  path: string;
+  view: TView;
+};
 
-export const ROUTES: RouteObject[] = [
+export const ROUTES: Route[] = [
   {
     path: "/",
-    element: <Subreddit />,
+    view: "subreddit",
   },
   {
     path: "/r/:subreddit",
-    element: <Subreddit />,
+    view: "subreddit",
   },
   {
     path: "/r/:subreddit/comments/:author/:post",
-    element: <div>Comments</div>,
+    element: <div>Comments - TODO</div>,
+    view: "comments",
   },
 ];
 

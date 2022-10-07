@@ -1,27 +1,7 @@
 import { browser, MESSAGE_ACTIONS, STORAGE_KEYS } from "@rju/core";
-import {
-  TConfig,
-  TListing,
-  TListingContext,
-  TMessageEvent,
-  TSandboxMessage,
-} from "@rju/types";
+import { TConfig, TListing, TMessageEvent, TSandboxMessage } from "@rju/types";
 
-import { LINKS } from "../components/Header/Header";
-
-const logo = browser.runtime.getURL("reddit_logo_32.png");
-
-export function getTemplateContext(
-  pageData: TListing,
-  config: TConfig
-): TListingContext {
-  return {
-    data: pageData.data,
-    logo,
-    subreddits: LINKS,
-    config,
-  };
-}
+import { getTemplateContext } from "./sandbox";
 
 export function handleMessageEvent(event: TMessageEvent) {
   const { action, value } = event;
@@ -48,24 +28,33 @@ export function handleMessageEvent(event: TMessageEvent) {
 
 export function sendSandboxMessage(message: TSandboxMessage) {
   const sandbox = document.getElementById("rju-sandbox") as HTMLIFrameElement;
+  const { contentWindow } = sandbox;
 
-  sandbox.contentWindow?.postMessage(message, "*");
+  contentWindow?.postMessage(message, "*");
 }
 
-export function startListeners(pageData: TListing, config: TConfig) {
+export function startListeners(listing: TListing, config: TConfig) {
   browser.runtime.onMessage.addListener((event: TMessageEvent) => {
     handleMessageEvent(event);
   });
 
   browser.storage.onChanged.addListener((event) => {
-    const {
-      [STORAGE_KEYS.CURRENT_TEMPLATE.subreddit]: { newValue },
-    } = event;
+    for (const key of Object.keys(event)) {
+      switch (key) {
+        case STORAGE_KEYS.CURRENT_TEMPLATE.comments:
+        case STORAGE_KEYS.CURRENT_TEMPLATE.subreddit: {
+          const {
+            [key]: { newValue },
+          } = event;
 
-    sendSandboxMessage({
-      template: newValue,
-      context: getTemplateContext(pageData, config),
-    });
+          sendSandboxMessage({
+            template: newValue,
+            context: getTemplateContext(listing, config),
+          });
+          break;
+        }
+      }
+    }
   });
 
   window.addEventListener("message", (event: MessageEvent<TMessageEvent>) => {

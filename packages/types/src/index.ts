@@ -12,18 +12,21 @@ export const messageActions = ["update-style", "update-template"] as const;
 export const modes = ["legacy", "redesign"] as const;
 export const views = ["comments", "subreddit"] as const;
 
-export interface IParsable<T> {
-  parse(json: any): T;
+export interface IParsable<T, U = unknown> {
+  parse(json: any): T | [T, U];
 }
 
 export type TConfig = {
   hostname: string;
   mode: TMode;
+  view?: TView;
 };
 export type TListingContext = {
   config: TConfig;
   data: TListingData;
-  logo: string;
+  logo: {
+    white: string;
+  };
   subreddits: {
     text: string;
     to: string;
@@ -42,4 +45,5 @@ export type TSandboxMessage = {
 };
 export type TView = typeof views[number];
 
+export * from "./comments";
 export * from "./listing";

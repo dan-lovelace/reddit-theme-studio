@@ -1,5 +1,7 @@
 import Handlebars from "handlebars";
-import { truncate } from "lodash";
+import { capitalize, truncate } from "lodash";
+
+import { prettyDate } from "./lib/time";
 
 Handlebars.registerHelper("ifeq", (a, b, options) => {
   return a === b ? options.fn(this) : options.inverse(this);
@@ -11,6 +13,14 @@ Handlebars.registerHelper("ifnoteq", (a, b, options) => {
 
 Handlebars.registerHelper("ifnotend", (a, b, options) => {
   return a < b - 1 ? options.fn(this) : options.inverse(this);
+});
+
+Handlebars.registerHelper("capitalize", (a) => {
+  return capitalize(a);
+});
+
+Handlebars.registerHelper("prettyDate", (a) => {
+  return prettyDate(a);
 });
 
 Handlebars.registerHelper("truncate", (a) => {

@@ -1,4 +1,7 @@
 import type { TConfig, TMode } from "@rju/types";
+import { matchRoutes } from "react-router-dom";
+
+import { ROUTES } from "./routes";
 
 export function getConfig(): TConfig {
   const {
@@ -6,5 +9,8 @@ export function getConfig(): TConfig {
   } = window;
   const mode: TMode = hostname === "old.reddit.com" ? "legacy" : "redesign";
 
-  return { hostname, mode };
+  const route = matchRoutes(ROUTES, window.location.pathname);
+  const view = route?.[0].route.view;
+
+  return { hostname, mode, view };
 }

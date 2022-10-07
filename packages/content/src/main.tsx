@@ -1,22 +1,23 @@
 import { browser, MESSAGE_ACTIONS, STORAGE_KEYS } from "@rju/core";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
-import { matchRoutes } from "react-router-dom";
 
 import App from "./App";
 import { store } from "./app/store";
 import { getConfig } from "./lib/config";
 import { handleMessageEvent } from "./lib/message";
-import { ROUTES } from "./lib/routes";
 import "./main.scss";
 
 async function main() {
-  // make sure the current page is supported
-  if (!matchRoutes(ROUTES, window.location.pathname)) {
-    return;
-  }
+  const config = getConfig();
+
+  // return if current page is unsupported
+  if (!config.view) return;
 
   const { documentElement } = document;
+
+  // add configuration mode to html element class list
+  documentElement.classList.add(config.mode);
 
   // create style element
   const style = document.createElement("style");
@@ -27,10 +28,6 @@ async function main() {
   const root = document.createElement("div");
   root.id = "rju-root";
   documentElement.appendChild(root);
-
-  // add configuration mode class to html element
-  const config = getConfig();
-  documentElement.classList.add(config.mode);
 
   // fetch css from storage and apply
   const currentStyle = browser.storage.sync.get(STORAGE_KEYS.CURRENT_STYLE);
@@ -45,10 +42,7 @@ async function main() {
 
   ReactDOM.createRoot(root).render(
     <Provider store={store}>
-      <div id="rju-content">
-        <App config={config} />
-      </div>
-      <iframe id="rju-sandbox" src={browser.runtime.getURL("sandbox.html")} />
+      <App config={config} />
     </Provider>
   );
 }
