@@ -15,7 +15,7 @@ export type TConfig = {
   /**
    * @example subreddit
    */
-  view?: TView;
+  view: TView;
 };
 
 export type TMessageAction = "update-style" | "update-template";

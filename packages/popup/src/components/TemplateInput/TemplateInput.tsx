@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {
   Box,
   FormControl,
+  InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -15,7 +16,7 @@ import Subreddit from "./Subreddit";
 
 const { SELECTED_VIEW } = STORAGE_KEYS;
 
-export default function TemplateInput() {
+export function TemplateInput() {
   const [initialized, setInitialized] = useState<boolean>(false);
   const [viewValue, setViewValue] = useState<TView>("subreddit");
 
@@ -46,6 +47,7 @@ export default function TemplateInput() {
       {initialized && (
         <Box>
           <FormControl variant="standard" sx={{ minWidth: 250 }}>
+            <InputLabel>View</InputLabel>
             <Select
               value={viewValue}
               onChange={handleViewChange}

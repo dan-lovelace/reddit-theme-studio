@@ -17,8 +17,7 @@ import {
 import { browser, STORAGE_KEYS } from "@rju/core";
 
 import "./App.scss";
-import StyleInput from "./components/StyleInput";
-import TemplateInput from "./components/TemplateInput";
+import { StyleInput, TemplateInput } from "./components/TemplateInput";
 import { themeComponents } from "./lib/theme";
 
 const { SELECTED_TAB } = STORAGE_KEYS;

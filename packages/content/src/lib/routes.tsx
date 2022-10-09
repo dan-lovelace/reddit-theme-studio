@@ -20,10 +20,24 @@ export const ROUTES: Route[] = [
   },
 ];
 
-export function getJsonPath({ hostname }: TConfig) {
+export const getJson: (
+  config: TConfig,
+  params?: Record<string, string>
+) => any = async (config, params) => {
   const {
     location: { pathname },
   } = window;
 
-  return `//${hostname}${pathname}.json?limit=30`;
-}
+  const url = `//${config.hostname}${pathname}.json${
+    params ? `?${new URLSearchParams(params).toString()}` : ""
+  }`;
+  const result = await fetch(url, {
+    headers: {
+      "Cache-Control": "max-age=300",
+    },
+  });
+  const json = await result.json();
+  console.log("raw json", json);
+
+  return json;
+};

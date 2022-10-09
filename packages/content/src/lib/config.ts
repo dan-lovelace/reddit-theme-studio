@@ -8,9 +8,11 @@ export function getConfig(): TConfig {
     location: { hostname },
   } = window;
   const mode: TMode = hostname === "old.reddit.com" ? "legacy" : "redesign";
-
   const route = matchRoutes(ROUTES, window.location.pathname);
-  const view = route?.[0].route.view;
+
+  if (!route) throw new Error("Invalid route provided to getConfig()");
+
+  const view = route[0].route.view;
 
   return { hostname, mode, view };
 }

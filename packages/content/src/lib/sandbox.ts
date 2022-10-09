@@ -3,7 +3,7 @@ import { Comments, Listing, TConfig, TSandboxContext } from "@rju/types";
 
 import { LINKS } from "../components/Header/Header";
 import { sendSandboxMessage, startListeners } from "./message";
-import { getJsonPath } from "./routes";
+import { getJson } from "./routes";
 
 const whiteLogo = browser.runtime.getURL("reddit_logo_32.png");
 
@@ -30,76 +30,48 @@ export function handleSandboxLoad({
 }) {
   return async () => {
     const { view } = config;
-    const jsonLocation = getJsonPath(config);
-    const result = await fetch(jsonLocation, {
-      headers: {
-        "Cache-Control": "max-age=300",
-      },
-    });
-    const json = await result.json();
-    console.log("json", json);
 
     switch (view) {
       case "comments": {
+        const json = await getJson(config);
         const commentsData = new Comments().parse(json);
         console.log("commentsData", commentsData);
 
-        startListeners(commentsData, config);
-
-        const savedTemplate = await browser.storage.sync.get(
-          STORAGE_KEYS.CURRENT_TEMPLATE[view]
-        );
-
-        if (
-          Object.prototype.hasOwnProperty.call(
-            savedTemplate,
-            STORAGE_KEYS.CURRENT_TEMPLATE[view]
-          )
-        ) {
-          sendSandboxMessage({
-            context: getTemplateContext(commentsData, config),
-            event: {
-              action: MESSAGE_ACTIONS.UPDATE_TEMPLATE,
-              value: savedTemplate[STORAGE_KEYS.CURRENT_TEMPLATE[view]],
-            },
-          });
-        } else {
-          // TODO: serve default template
-        }
-
+        initSandbox(config, commentsData);
         break;
       }
 
       case "subreddit": {
+        const json = await getJson(config, {
+          limit: "30",
+        });
         const subredditData = new Listing().parse(json);
         console.log("subredditData", subredditData);
 
-        startListeners(subredditData, config);
-
-        const savedTemplate = await browser.storage.sync.get(
-          STORAGE_KEYS.CURRENT_TEMPLATE[view]
-        );
-
-        if (
-          Object.prototype.hasOwnProperty.call(
-            savedTemplate,
-            STORAGE_KEYS.CURRENT_TEMPLATE[view]
-          )
-        ) {
-          sendSandboxMessage({
-            context: getTemplateContext(subredditData.data, config),
-            event: {
-              action: MESSAGE_ACTIONS.UPDATE_TEMPLATE,
-              value: savedTemplate[STORAGE_KEYS.CURRENT_TEMPLATE[view]],
-            },
-          });
-        } else {
-          // TODO: serve default template
-        }
+        initSandbox(config, subredditData);
         break;
       }
     }
 
     initialize();
   };
+}
+
+export async function initSandbox<T>(config: TConfig, data: T) {
+  startListeners(data, config);
+
+  const storageKey = STORAGE_KEYS.CURRENT_TEMPLATE[config.view];
+  const savedTemplate = await browser.storage.sync.get(storageKey);
+
+  if (Object.prototype.hasOwnProperty.call(savedTemplate, storageKey)) {
+    sendSandboxMessage({
+      context: getTemplateContext(data, config),
+      event: {
+        action: MESSAGE_ACTIONS.UPDATE_TEMPLATE,
+        value: savedTemplate[storageKey],
+      },
+    });
+  } else {
+    // TODO: serve default template?
+  }
 }

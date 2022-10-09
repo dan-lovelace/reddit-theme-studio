@@ -63,7 +63,7 @@
   text-transform: lowercase;
 }
 
-.page-header__subreddit_separator {
+.page-header__subreddit__separator {
   margin-left: 3px;
   margin-right: 3px;
 }
@@ -74,7 +74,7 @@
 
 .post-list__list {
   list-style: auto;
-  margin-left: 30px;
+  margin-left: 25px;
 }
 
 .post-result {
@@ -120,5 +120,5 @@
 }
 
 .comments-partial__title {
-  margin-bottom: 5px;
+  margin-bottom: 2px;
 }

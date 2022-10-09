@@ -7,7 +7,6 @@ import Handlebars from "handlebars";
 import "./helpers";
 
 window.addEventListener("message", (message) => {
-  console.log("iframe message", message);
   const {
     data: { context, event },
     origin,
