@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { IParsable, Listing, TListing } from ".";
+import { IParsable, Listing, listingTypes, TListing } from ".";
 
 export type TComments = {
   kind: string;
@@ -35,9 +35,10 @@ export type TCommentsDataChild = {
 };
 
 export type TCommentsDataChildData = {
+  author?: string;
   body?: string;
+  created_utc?: number;
   replies?: TCommentReplies | string;
-  subreddit_id?: string;
 };
 
 export type TCommentReplies = {
@@ -47,9 +48,10 @@ export type TCommentReplies = {
 
 const CommentReply: z.ZodType<TCommentsDataChildData> = z.lazy(() =>
   z.object({
+    author: z.string().optional(),
     body: z.string().optional(),
+    created_utc: z.number().optional(),
     replies: z.union([CommentReplies, z.string()]),
-    subreddit_id: z.string().optional(),
   })
 );
 
@@ -75,12 +77,13 @@ const CommentReplies: z.ZodType<TCommentReplies | string | undefined> = z.lazy(
 );
 
 export class Comments implements IParsable<TListing, TComments> {
-  parse(json: any): [TListing, TComments] {
+  parse(json: any): { post: TListing; comments: TComments } {
     if (json.length < 2) {
       throw new Error("Invalid comments json");
     }
 
-    const subreddit = new Listing().parse(json[0]);
+    const [postJson, commentsJson] = json;
+    const post = new Listing().parse(postJson);
     const shape = z.object({
       kind: z.string(),
       data: z.object({
@@ -88,7 +91,7 @@ export class Comments implements IParsable<TListing, TComments> {
         before: z.string().or(z.null()),
         children: z.array(
           z.object({
-            kind: z.string(),
+            kind: z.enum(listingTypes),
             data: CommentReply,
           })
         ),
@@ -96,6 +99,6 @@ export class Comments implements IParsable<TListing, TComments> {
       }),
     });
 
-    return [subreddit, shape.parse(json[1])];
+    return { post, comments: shape.parse(commentsJson) };
   }
 }

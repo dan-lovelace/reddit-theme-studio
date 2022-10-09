@@ -1,9 +1,9 @@
 import { browser, MESSAGE_ACTIONS, STORAGE_KEYS } from "@rju/core";
-import { TConfig, TListing, TMessageEvent, TSandboxMessage } from "@rju/types";
+import { TConfig, TMessageEvent, TSandboxMessage } from "@rju/types";
 
 import { getTemplateContext } from "./sandbox";
 
-export function handleMessageEvent(event: TMessageEvent) {
+export function handleMessageEvent(event: TMessageEvent<string>) {
   const { action, value } = event;
 
   switch (action) {
@@ -26,30 +26,44 @@ export function handleMessageEvent(event: TMessageEvent) {
   }
 }
 
-export function sendSandboxMessage(message: TSandboxMessage) {
+export function sendSandboxMessage<T>(message: TSandboxMessage<T>) {
   const sandbox = document.getElementById("rju-sandbox") as HTMLIFrameElement;
   const { contentWindow } = sandbox;
 
   contentWindow?.postMessage(message, "*");
 }
 
-export function startListeners(listing: TListing, config: TConfig) {
-  browser.runtime.onMessage.addListener((event: TMessageEvent) => {
+export function startListeners<T>(data: T, config: TConfig) {
+  browser.runtime.onMessage.addListener((event: TMessageEvent<string>) => {
     handleMessageEvent(event);
   });
 
   browser.storage.onChanged.addListener((event) => {
     for (const key of Object.keys(event)) {
+      const {
+        [key]: { newValue },
+      } = event;
+
       switch (key) {
+        case STORAGE_KEYS.CURRENT_STYLE: {
+          sendSandboxMessage({
+            event: {
+              action: MESSAGE_ACTIONS.UPDATE_STYLE,
+              value: newValue,
+            },
+          });
+          break;
+        }
+
+        // TODO: only update template if current page matches selected view
         case STORAGE_KEYS.CURRENT_TEMPLATE.comments:
         case STORAGE_KEYS.CURRENT_TEMPLATE.subreddit: {
-          const {
-            [key]: { newValue },
-          } = event;
-
           sendSandboxMessage({
-            template: newValue,
-            context: getTemplateContext(listing, config),
+            context: getTemplateContext(data, config),
+            event: {
+              action: MESSAGE_ACTIONS.UPDATE_TEMPLATE,
+              value: newValue,
+            },
           });
           break;
         }
@@ -57,7 +71,10 @@ export function startListeners(listing: TListing, config: TConfig) {
     }
   });
 
-  window.addEventListener("message", (event: MessageEvent<TMessageEvent>) => {
-    handleMessageEvent(event.data);
-  });
+  window.addEventListener(
+    "message",
+    (event: MessageEvent<TMessageEvent<string>>) => {
+      handleMessageEvent(event.data);
+    }
+  );
 }

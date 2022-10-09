@@ -2,6 +2,25 @@ import { z } from "zod";
 
 import { IParsable } from ".";
 
+export const listingTypes = [
+  "more",
+  "t1",
+  "t2",
+  "t3",
+  "t4",
+  "t5",
+  "t6",
+] as const;
+export const listingTypeValues: { [key in TListingType]: string } = {
+  more: "more",
+  t1: "comment",
+  t2: "account",
+  t3: "link",
+  t4: "message",
+  t5: "subreddit",
+  t6: "award",
+};
+
 export type TListing = {
   data: TListingData;
 };
@@ -41,6 +60,11 @@ export type TListingDataChildData = {
    * naughtynelly
    */
   author: string;
+
+  /**
+   * Body content
+   */
+  body?: string;
 
   /**
    * Post creation time
@@ -129,6 +153,8 @@ export type TListingDataChildData = {
    */
   url: string;
 };
+
+export type TListingType = typeof listingTypes[number];
 
 export class Listing implements IParsable<TListing> {
   parse(json: any): TListing {

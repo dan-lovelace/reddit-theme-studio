@@ -23,6 +23,10 @@
   color: #828282;
 }
 
+.page-layout__body {
+  padding: 5px;
+}
+
 .page-header {
   display: flex;
   align-items: center;
@@ -64,8 +68,8 @@
   margin-right: 3px;
 }
 
-.post-list {
-  padding: 5px 0;
+.post-layout {
+  margin-bottom: 30px;
 }
 
 .post-list__list {
@@ -81,6 +85,14 @@
   font-size: 8pt;
 }
 
+.post-result__thumbnail {
+  margin-top: 15px;
+}
+
+.post-result__thumbnail img {
+  max-width: 400px;
+}
+
 .post-result__title {
   color: #000000;
 }
@@ -91,4 +103,22 @@
 
 .post-result__url {
   font-size: 8pt;
+}
+
+.comments-partial {
+  font-size: 8pt;
+}
+
+.comments-partial__body {
+  font-size: 9pt;
+  color: #000000;
+  margin-bottom: 10px;
+}
+
+.comments-partial__children {
+  margin-left: 42px;
+}
+
+.comments-partial__title {
+  margin-bottom: 5px;
 }

@@ -1,11 +1,5 @@
-import { browser, STORAGE_KEYS } from "@rju/core";
-import {
-  Comments,
-  Listing,
-  TConfig,
-  TListing,
-  TListingContext,
-} from "@rju/types";
+import { browser, MESSAGE_ACTIONS, STORAGE_KEYS } from "@rju/core";
+import { Comments, Listing, TConfig, TSandboxContext } from "@rju/types";
 
 import { LINKS } from "../components/Header/Header";
 import { sendSandboxMessage, startListeners } from "./message";
@@ -13,12 +7,12 @@ import { getJsonPath } from "./routes";
 
 const whiteLogo = browser.runtime.getURL("reddit_logo_32.png");
 
-export function getTemplateContext(
-  listing: TListing,
+export function getTemplateContext<T>(
+  data: T,
   config: TConfig
-): TListingContext {
+): TSandboxContext<T> {
   return {
-    data: listing.data,
+    data,
     logo: {
       white: whiteLogo,
     },
@@ -35,6 +29,7 @@ export function handleSandboxLoad({
   initialize: () => void;
 }) {
   return async () => {
+    const { view } = config;
     const jsonLocation = getJsonPath(config);
     const result = await fetch(jsonLocation, {
       headers: {
@@ -44,10 +39,34 @@ export function handleSandboxLoad({
     const json = await result.json();
     console.log("json", json);
 
-    switch (config.view) {
+    switch (view) {
       case "comments": {
         const commentsData = new Comments().parse(json);
         console.log("commentsData", commentsData);
+
+        startListeners(commentsData, config);
+
+        const savedTemplate = await browser.storage.sync.get(
+          STORAGE_KEYS.CURRENT_TEMPLATE[view]
+        );
+
+        if (
+          Object.prototype.hasOwnProperty.call(
+            savedTemplate,
+            STORAGE_KEYS.CURRENT_TEMPLATE[view]
+          )
+        ) {
+          sendSandboxMessage({
+            context: getTemplateContext(commentsData, config),
+            event: {
+              action: MESSAGE_ACTIONS.UPDATE_TEMPLATE,
+              value: savedTemplate[STORAGE_KEYS.CURRENT_TEMPLATE[view]],
+            },
+          });
+        } else {
+          // TODO: serve default template
+        }
+
         break;
       }
 
@@ -58,18 +77,21 @@ export function handleSandboxLoad({
         startListeners(subredditData, config);
 
         const savedTemplate = await browser.storage.sync.get(
-          STORAGE_KEYS.CURRENT_TEMPLATE.subreddit
+          STORAGE_KEYS.CURRENT_TEMPLATE[view]
         );
 
         if (
           Object.prototype.hasOwnProperty.call(
             savedTemplate,
-            STORAGE_KEYS.CURRENT_TEMPLATE.subreddit
+            STORAGE_KEYS.CURRENT_TEMPLATE[view]
           )
         ) {
           sendSandboxMessage({
-            template: savedTemplate[STORAGE_KEYS.CURRENT_TEMPLATE.subreddit],
-            context: getTemplateContext(subredditData, config),
+            context: getTemplateContext(subredditData.data, config),
+            event: {
+              action: MESSAGE_ACTIONS.UPDATE_TEMPLATE,
+              value: savedTemplate[STORAGE_KEYS.CURRENT_TEMPLATE[view]],
+            },
           });
         } else {
           // TODO: serve default template

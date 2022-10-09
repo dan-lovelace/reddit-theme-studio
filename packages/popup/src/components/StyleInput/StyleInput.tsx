@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { Box, Button } from "@mui/material";
-import { browser, MESSAGE_ACTIONS, STORAGE_KEYS } from "@rju/core";
+import { browser, STORAGE_KEYS } from "@rju/core";
 
 import CodeEditor from "../CodeEditor";
 
@@ -29,10 +29,6 @@ export default function StyleInput() {
   };
 
   const handleSave = () => {
-    browser.runtime.sendMessage({
-      action: MESSAGE_ACTIONS.UPDATE_STYLE,
-      value,
-    });
     browser.storage.sync.set({
       [STORAGE_KEYS.CURRENT_STYLE]: value,
     });
@@ -43,9 +39,11 @@ export default function StyleInput() {
       {initialized && (
         <Box>
           <CodeEditor
+            id="css"
             language="css"
             value={value}
             handleChange={handleChange}
+            handleSave={handleSave}
           />
           <Button
             variant="contained"

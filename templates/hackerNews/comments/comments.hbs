@@ -1,0 +1,19 @@
+{{#each children}}
+  <div class="comments-partial">
+    {{#if data.author}}
+      <div class="comments-partial__title">
+        {{data.author}} {{prettyDate data.created_utc}}
+      </div>
+    {{else}}
+      more replies...
+    {{/if}}
+    <div class="comments-partial__body">
+      {{{data.body}}}
+    </div>
+    {{#with data.replies.data}}
+      <div class="comments-partial__children">
+        {{> comments}}
+      </div>
+    {{/with}}
+  </div>
+{{/each}}

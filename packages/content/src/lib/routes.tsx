@@ -2,7 +2,6 @@ import { TConfig, TView } from "@rju/types";
 import { RouteObject } from "react-router-dom";
 
 type Route = RouteObject & {
-  path: string;
   view: TView;
 };
 
@@ -17,7 +16,6 @@ export const ROUTES: Route[] = [
   },
   {
     path: "/r/:subreddit/comments/:author/:post",
-    element: <div>Comments - TODO</div>,
     view: "comments",
   },
 ];

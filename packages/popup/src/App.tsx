@@ -1,9 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import {
+  Alert,
+  AlertTitle,
   Box,
   createTheme,
   CssBaseline,
+  IconButton,
+  Stack,
   Tab,
   Tabs,
   ThemeProvider,
@@ -21,6 +26,7 @@ const { SELECTED_TAB } = STORAGE_KEYS;
 function App() {
   const [activeTab, setActiveTab] = useState<number>(0);
   const [initialized, setInitialized] = useState<boolean>(false);
+  const [popoutError, setPopoutError] = useState<boolean>(false);
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const theme = useMemo(
     () =>
@@ -32,6 +38,8 @@ function App() {
       }),
     [prefersDarkMode]
   );
+  const expanded =
+    new URLSearchParams(window.location.search).get("expanded") === "true";
 
   useEffect(() => {
     async function init() {
@@ -46,6 +54,18 @@ function App() {
     init();
   }, []);
 
+  const handlePopout = () => {
+    const open = window.open(
+      "popup.html?expanded=true",
+      "popup",
+      "popup=true,width=600,height=700"
+    );
+
+    if (!open) return setPopoutError(true);
+
+    window.close();
+  };
+
   const handleTabChange = (_: React.SyntheticEvent, newIndex: number) => {
     setActiveTab(newIndex);
 
@@ -57,10 +77,35 @@ function App() {
       <CssBaseline />
       {initialized && (
         <Box className="app">
-          <Tabs value={activeTab} onChange={handleTabChange} sx={{ mb: 1 }}>
-            <Tab label="HTML" />
-            <Tab label="CSS" />
-          </Tabs>
+          {popoutError && (
+            <Alert
+              severity="error"
+              onClose={() => setPopoutError(false)}
+              sx={{ mb: 1 }}
+            >
+              <AlertTitle>Pop out error</AlertTitle>
+              Please disable popup blockers for this page.
+            </Alert>
+          )}
+          <Stack direction="row">
+            <Box sx={{ flex: "1 1 auto" }}>
+              <Tabs value={activeTab} onChange={handleTabChange} sx={{ mb: 1 }}>
+                <Tab label="HTML" />
+                <Tab label="CSS" />
+              </Tabs>
+            </Box>
+            {!expanded && (
+              <Box>
+                <IconButton
+                  aria-label="pop out"
+                  title="Pop out"
+                  onClick={handlePopout}
+                >
+                  <OpenInNewIcon />
+                </IconButton>
+              </Box>
+            )}
+          </Stack>
           <Box>{activeTab === 0 ? <TemplateInput /> : <StyleInput />}</Box>
         </Box>
       )}

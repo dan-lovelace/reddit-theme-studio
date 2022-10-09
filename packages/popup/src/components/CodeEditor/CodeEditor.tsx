@@ -12,12 +12,15 @@ hljs.registerLanguage("handlebars", handlebars);
 hljs.registerLanguage("xml", xml);
 
 type CodeEditorProps = {
+  id: string;
   language: string;
   value: string;
   handleChange: (value: string) => void;
+  handleSave: () => void;
 };
 
 export default function CodeEditor({
+  id,
   language,
   value,
   handleChange,
@@ -46,7 +49,7 @@ export default function CodeEditor({
       }}
     >
       <Editor
-        autoFocus
+        id={id}
         className="code-editor"
         value={value}
         onValueChange={handleChange}
