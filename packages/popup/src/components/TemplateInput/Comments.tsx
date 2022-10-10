@@ -1,4 +1,6 @@
-import ViewInput, { TViewInputValue } from "./ViewInput";
+import { TViewInputValue } from "@rju/types";
+
+import ViewInput from "./ViewInput";
 
 const initialState: TViewInputValue = {
   template: "",

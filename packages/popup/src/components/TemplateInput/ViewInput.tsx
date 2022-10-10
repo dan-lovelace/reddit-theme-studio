@@ -2,21 +2,12 @@ import { useEffect, useRef, useState } from "react";
 
 import { Box, Button, InputLabel } from "@mui/material";
 import { browser, STORAGE_KEYS } from "@rju/core";
-import { TView } from "@rju/types";
+import { TView, TViewInputValue } from "@rju/types";
 
-import { saveListener } from ".";
+import { getSaveShortcut, saveListener } from ".";
 import CodeEditor from "../CodeEditor";
 
 const { CURRENT_TEMPLATE } = STORAGE_KEYS;
-
-export type TViewInputValue = {
-  template: string;
-  partials: {
-    label: string;
-    name: string;
-    template: string;
-  }[];
-};
 
 type ViewInputProps = {
   initialState: TViewInputValue;
@@ -113,7 +104,7 @@ export default function ViewInput({ initialState, view }: ViewInputProps) {
             disabled={Boolean(!canSave)}
             onClick={handleSave}
           >
-            Apply
+            Apply ({getSaveShortcut()})
           </Button>
         </Box>
       )}

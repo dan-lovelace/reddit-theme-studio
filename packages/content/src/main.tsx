@@ -10,6 +10,7 @@ import "./main.scss";
 
 async function main() {
   const config = getConfig();
+
   // return if current page is unsupported
   if (!config.view) return;
 

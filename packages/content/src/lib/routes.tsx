@@ -28,7 +28,7 @@ export const getJson: (
     location: { pathname },
   } = window;
 
-  const url = `//${config.hostname}${pathname}.json${
+  const url = `https://${config.hostname}${pathname}.json${
     params ? `?${new URLSearchParams(params).toString()}` : ""
   }`;
   const result = await fetch(url, {

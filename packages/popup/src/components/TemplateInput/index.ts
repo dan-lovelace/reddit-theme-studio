@@ -1,7 +1,13 @@
+function detectMac(): boolean {
+  return Boolean(navigator.platform.match("Mac"));
+}
+
+export function getSaveShortcut() {
+  return detectMac() ? "⌘ + S" : "Ctrl + S";
+}
+
 export function saveListener(event: KeyboardEvent, handleSave: () => void) {
-  const triggerDown = navigator.platform.match("Mac")
-    ? event.metaKey
-    : event.ctrlKey;
+  const triggerDown = detectMac() ? event.metaKey : event.ctrlKey;
 
   if (event.key.toLowerCase() === "s" && triggerDown) {
     event.preventDefault();

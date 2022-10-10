@@ -70,3 +70,12 @@ export type TStorageItem = {
 };
 
 export type TView = "comments" | "subreddit";
+
+export type TViewInputValue = {
+  template: string;
+  partials: {
+    label: string;
+    name: string;
+    template: string;
+  }[];
+};

@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Box, Button } from "@mui/material";
 import { browser, STORAGE_KEYS } from "@rju/core";
 
-import { saveListener } from ".";
+import { getSaveShortcut, saveListener } from ".";
 import CodeEditor from "../CodeEditor";
 
 const { CURRENT_STYLE } = STORAGE_KEYS;
@@ -66,7 +66,7 @@ export function StyleInput() {
             disabled={Boolean(!styleValue)}
             onClick={handleSave}
           >
-            Apply
+            Apply ({getSaveShortcut()})
           </Button>
         </Box>
       )}

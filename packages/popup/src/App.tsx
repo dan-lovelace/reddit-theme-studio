@@ -16,7 +16,6 @@ import {
 } from "@mui/material";
 import { browser, STORAGE_KEYS } from "@rju/core";
 
-import "./App.scss";
 import { StyleInput, TemplateInput } from "./components/TemplateInput";
 import { themeComponents } from "./lib/theme";
 
@@ -75,7 +74,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       {initialized && (
-        <Box className="app">
+        <Stack className="app">
           {popoutError && (
             <Alert
               severity="error"
@@ -106,7 +105,7 @@ function App() {
             )}
           </Stack>
           <Box>{activeTab === 0 ? <TemplateInput /> : <StyleInput />}</Box>
-        </Box>
+        </Stack>
       )}
     </ThemeProvider>
   );

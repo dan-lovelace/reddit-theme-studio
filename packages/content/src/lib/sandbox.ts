@@ -1,11 +1,25 @@
 import { browser, MESSAGE_ACTIONS, STORAGE_KEYS } from "@rju/core";
-import { Comments, Listing, TConfig, TSandboxContext } from "@rju/types";
+import {
+  Comments,
+  Listing,
+  TConfig,
+  TSandboxContext,
+  TView,
+  TViewInputValue,
+} from "@rju/types";
 
 import { LINKS } from "../components/Header/Header";
 import { sendSandboxMessage, startListeners } from "./message";
 import { getJson } from "./routes";
 
 const whiteLogo = browser.runtime.getURL("reddit_logo_32.png");
+
+function getDefaultTemplate(view: TView): TViewInputValue {
+  return {
+    partials: [],
+    template: `<div>Error: No template found for view '${view}'. Use the editor to create one.</div>`,
+  };
+}
 
 export function getTemplateContext<T>(
   data: T,
@@ -62,16 +76,16 @@ export async function initSandbox<T>(config: TConfig, data: T) {
 
   const storageKey = STORAGE_KEYS.CURRENT_TEMPLATE[config.view];
   const savedTemplate = await browser.storage.sync.get(storageKey);
+  const context = getTemplateContext(data, config);
+  const value = Object.prototype.hasOwnProperty.call(savedTemplate, storageKey)
+    ? savedTemplate[storageKey]
+    : getDefaultTemplate(config.view);
 
-  if (Object.prototype.hasOwnProperty.call(savedTemplate, storageKey)) {
-    sendSandboxMessage({
-      context: getTemplateContext(data, config),
-      event: {
-        action: MESSAGE_ACTIONS.UPDATE_TEMPLATE,
-        value: savedTemplate[storageKey],
-      },
-    });
-  } else {
-    // TODO: serve default template?
-  }
+  sendSandboxMessage({
+    context: context,
+    event: {
+      action: MESSAGE_ACTIONS.UPDATE_TEMPLATE,
+      value: value,
+    },
+  });
 }
