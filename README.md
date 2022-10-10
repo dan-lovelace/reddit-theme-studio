@@ -348,3 +348,17 @@ Chrome: https://developer.chrome.com/docs/extensions/mv3/getstarted/#unpacked
 
 Firefox:
 https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension#installing
+
+## Tips
+
+### Clearing storage
+
+It can be helpful when making code changes to delete all storage items and start
+from scratch. To do that, inspect the background script in the browser's
+extension UI and run the following command in the console:
+
+```js
+chrome.storage.sync.get((result) => {
+  Object.keys(result).forEach((key) => chrome.storage.sync.remove(key));
+});
+```
