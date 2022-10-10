@@ -58,7 +58,7 @@
   display: flex;
 }
 
-.page-header__subreddit_link {
+.page-header__subreddit__link {
   color: #000000;
   text-transform: lowercase;
 }
