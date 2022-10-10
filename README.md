@@ -8,6 +8,10 @@ extension store but may be installed locally by following the "Local
 Development" section below. The API may change at any time so it's a good idea
 to keep backups of your templates and styles.
 
+|                        Theme                        |                Editor                 |
+| :-------------------------------------------------: | :-----------------------------------: |
+| ![HackerNews](lib/screenshots/hackernews-theme.png) | ![Editor](lib/screenshots/editor.png) |
+
 ## What?
 
 Reddit offers a public JSON API that is accessible by appending `.json` to the
