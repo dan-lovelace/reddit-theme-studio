@@ -1,7 +1,8 @@
 {
   "name": "reddit-json-ui",
+  "description": "Browser extension for hackable Reddit theming",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "workspaces": [
     "packages/*"
@@ -10,6 +11,7 @@
     "build": "yarn clean && ts-node --esm scripts/build.ts",
     "clean": "rimraf dist",
     "lint": "eslint .",
+    "package": "ts-node --esm scripts/package.ts",
     "start": "yarn clean && yarn start:background & yarn start:content & yarn start:popup & yarn start:sandbox",
     "start:background": "yarn workspace background build:watch",
     "start:content": "yarn workspace content build:watch",
@@ -17,8 +19,10 @@
     "start:sandbox": "yarn workspace sandbox build:watch"
   },
   "devDependencies": {
+    "@types/archiver": "^5.3.1",
     "@typescript-eslint/eslint-plugin": "^5.38.1",
     "@typescript-eslint/parser": "^5.38.1",
+    "archiver": "^5.3.1",
     "eslint": "^8.24.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",

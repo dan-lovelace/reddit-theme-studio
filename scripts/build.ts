@@ -49,7 +49,14 @@ function main() {
     "utf-8"
   );
 
+  const packageJson = fs.readFileSync(
+    path.join(__dirname, "package.json"),
+    "utf-8"
+  );
+  const packageVersion = JSON.parse(packageJson).version;
   const json = JSON.parse(manifestJson);
+
+  json.version = packageVersion;
   delete json["$schema"];
 
   exec("yarn workspaces run build", (error, stdout) => {

@@ -8,10 +8,6 @@ extension store but may be installed locally by following the "Local
 Development" section below. The API may change at any time so it's a good idea
 to keep backups of your templates and styles.
 
-|                        Theme                        |                Editor                 |
-| :-------------------------------------------------: | :-----------------------------------: |
-| ![HackerNews](lib/screenshots/hackernews-theme.png) | ![Editor](lib/screenshots/editor.png) |
-
 ## What?
 
 Reddit offers a public JSON API that is accessible by appending `.json` to the
@@ -19,6 +15,10 @@ end of a lot of URLs. Check out an example:
 https://old.reddit.com/r/popular.json. The extension works by fetching the
 current page's JSON and applying your own HTML and CSS to provide a customized
 user experience.
+
+|                        Theme                        |                Editor                 |
+| :-------------------------------------------------: | :-----------------------------------: |
+| ![HackerNews](lib/screenshots/hackernews-theme.png) | ![Editor](lib/screenshots/editor.png) |
 
 # Creating your first theme
 

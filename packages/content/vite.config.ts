@@ -14,6 +14,9 @@ export default defineConfig({
       targets: [{ src: "public/*", dest }],
     }),
   ],
+  esbuild: {
+    drop: ["console"],
+  },
   build: {
     assetsDir: "",
     rollupOptions: {
