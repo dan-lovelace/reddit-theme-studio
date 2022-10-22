@@ -10,7 +10,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "build:version": "node scripts/build.mjs",
-    "build:watch": "yarn build --watch",
+    "build:watch": "yarn build --watch --mode development",
     "lint": "eslint .",
     "preview": "vite preview"
   },

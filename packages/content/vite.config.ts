@@ -7,7 +7,7 @@ import { defineConfig } from "vite";
 const dest = path.join(__dirname, "..", "..", "dist");
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     staticCopy({
@@ -15,10 +15,11 @@ export default defineConfig({
     }),
   ],
   esbuild: {
-    drop: ["console"],
+    drop: mode === "production" ? ["console"] : [],
   },
   build: {
     assetsDir: "",
+    minify: mode === "production",
     rollupOptions: {
       input: "src/main.tsx",
       output: {
@@ -28,4 +29,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));

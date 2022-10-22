@@ -1,6 +1,8 @@
 import { browser, MESSAGE_ACTIONS, STORAGE_KEYS } from "@rju/core";
 import { TConfig, TMessageEvent, TSandboxMessage } from "@rju/types";
+import { matchRoutes } from "react-router-dom";
 
+import { ROUTES } from "./routes";
 import { getTemplateContext } from "./sandbox";
 
 export function handleMessageEvent(event: TMessageEvent<string>) {
@@ -39,6 +41,8 @@ export function startListeners<T>(data: T, config: TConfig) {
   });
 
   browser.storage.onChanged.addListener((event) => {
+    const routeMatch = matchRoutes(ROUTES, window.location.pathname);
+
     for (const key of Object.keys(event)) {
       const {
         [key]: { newValue },
@@ -55,9 +59,22 @@ export function startListeners<T>(data: T, config: TConfig) {
           break;
         }
 
-        // TODO: only update template if current page matches selected view
-        case STORAGE_KEYS.CURRENT_TEMPLATE.comments:
+        case STORAGE_KEYS.CURRENT_TEMPLATE.comments: {
+          if (routeMatch?.[0].route.view !== "comments") break;
+
+          sendSandboxMessage({
+            context: getTemplateContext(data, config),
+            event: {
+              action: MESSAGE_ACTIONS.UPDATE_TEMPLATE,
+              value: newValue,
+            },
+          });
+          break;
+        }
+
         case STORAGE_KEYS.CURRENT_TEMPLATE.subreddit: {
+          if (routeMatch?.[0].route.view !== "subreddit") break;
+
           sendSandboxMessage({
             context: getTemplateContext(data, config),
             event: {

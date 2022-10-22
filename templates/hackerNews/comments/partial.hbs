@@ -1,19 +1,27 @@
 {{#each children}}
   <div class="comments-partial">
     {{#if data.author}}
-      <div class="comments-partial__title">
-        • {{data.author}} {{prettyDate data.created_utc}}
-      </div>
+      <details class="comments-partial__details" open>
+        <summary id="{{data.created_utc}}">
+          •
+          <a href="/user/{{data.author}}">
+            {{data.author}}
+          </a>
+          {{prettyDate data.created_utc}}
+        </summary>
+        <div class="comments-partial__body">
+          {{{data.body}}}
+        </div>
+        {{#with data.replies.data}}
+          <div class="comments-partial__children">
+            {{> comments}}
+          </div>
+        {{/with}}
+      </details>
     {{else}}
-      more replies...
+      <a href="{{data.id}}">
+        more replies...
+      </a>
     {{/if}}
-    <div class="comments-partial__body">
-      {{{data.body}}}
-    </div>
-    {{#with data.replies.data}}
-      <div class="comments-partial__children">
-        {{> comments}}
-      </div>
-    {{/with}}
   </div>
 {{/each}}

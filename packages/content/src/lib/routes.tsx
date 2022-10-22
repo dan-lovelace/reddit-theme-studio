@@ -15,7 +15,7 @@ export const ROUTES: Route[] = [
     view: "subreddit",
   },
   {
-    path: "/r/:subreddit/comments/:author/:post",
+    path: "/r/:subreddit/comments/:author/:post/*",
     view: "comments",
   },
 ];

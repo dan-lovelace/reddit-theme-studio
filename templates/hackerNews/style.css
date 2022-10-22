@@ -107,6 +107,7 @@
 
 .comments-partial {
   font-size: 8pt;
+  margin-bottom: 10px;
 }
 
 .comments-partial__body {
@@ -120,6 +121,23 @@
   margin-left: 42px;
 }
 
-.comments-partial__title {
+.comments-partial__details summary {
   margin-bottom: 2px;
+  cursor: pointer;
+  display: inline;
+  pointer-events: none;
+}
+
+.comments-partial__details summary * {
+  pointer-events: auto;
+}
+
+.comments-partial__details > summary:after {
+  content: "[+]";
+  pointer-events: auto;
+}
+
+.comments-partial__details[open] > summary:after {
+  content: "[-]";
+  pointer-events: auto;
 }
