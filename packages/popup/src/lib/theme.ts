@@ -9,6 +9,9 @@ export const themeComponents: Components<Omit<Theme, "components">> = {
       },
     },
   },
+  MuiMenuItem: {
+    defaultProps: { disableRipple: true },
+  },
   MuiTab: {
     defaultProps: { disableRipple: true },
     styleOverrides: {
