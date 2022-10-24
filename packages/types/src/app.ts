@@ -69,6 +69,16 @@ export type TStorageItem = {
   view: TView;
 };
 
+export type TTheme = {
+  id: string;
+  inputs: {
+    comments: TViewInputValue;
+    style: string;
+    subreddit: TViewInputValue;
+  };
+  label: string;
+};
+
 export type TView = "comments" | "subreddit";
 
 export type TViewInputValue = {

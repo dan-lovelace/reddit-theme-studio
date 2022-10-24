@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouteObject } from "react-router-dom";
+import { RouteObject } from "react-router-dom";
 
 import HomePage from "../containers/HomePage";
 import ThemePage from "../containers/ThemePage";
@@ -17,9 +17,3 @@ export const ROUTES: { [key: string]: Route } = {
     element: <ThemePage />,
   },
 };
-
-const routes = Object.keys(ROUTES).map((r) => ROUTES[r]);
-
-export const router = createBrowserRouter(routes, {
-  basename: "/popup.html",
-});

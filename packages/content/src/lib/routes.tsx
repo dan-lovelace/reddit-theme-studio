@@ -8,14 +8,17 @@ type Route = RouteObject & {
 export const ROUTES: Route[] = [
   {
     path: "/",
+    element: false,
     view: "subreddit",
   },
   {
     path: "/r/:subreddit",
+    element: false,
     view: "subreddit",
   },
   {
     path: "/r/:subreddit/comments/:author/:post/*",
+    element: false,
     view: "comments",
   },
 ];

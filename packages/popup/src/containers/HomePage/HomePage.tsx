@@ -4,7 +4,6 @@ import { Box, Stack, Tab, Tabs } from "@mui/material";
 import { browser, STORAGE_KEYS } from "@rju/core";
 
 import { StyleInput, TemplateInput } from "../../components/TemplateInput";
-import PageLayout from "../PageLayout/PageLayout";
 
 const { SELECTED_TAB } = STORAGE_KEYS;
 
@@ -32,9 +31,9 @@ export default function HomePage() {
   };
 
   return (
-    <PageLayout>
+    <>
       {initialized && (
-        <Stack className="app">
+        <Stack className="home-page">
           <Box sx={{ flex: "1 1 auto" }}>
             <Tabs value={activeTab} onChange={handleTabChange} sx={{ mb: 1 }}>
               <Tab label="HTML" />
@@ -44,6 +43,6 @@ export default function HomePage() {
           <Box>{activeTab === 0 ? <TemplateInput /> : <StyleInput />}</Box>
         </Stack>
       )}
-    </PageLayout>
+    </>
   );
 }

@@ -1,4 +1,4 @@
-import { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import {
@@ -12,15 +12,18 @@ import {
   ThemeProvider,
   useMediaQuery,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 import OptionsMenu from "../../components/OptionsMenu";
-import { themeComponents } from "../../lib/theme";
+import { useAppContext } from "../../contexts/app";
+import { themeComponents } from "../../lib/muiTheme";
+import { ROUTES } from "../../lib/routes";
 
 export default function PageLayout({ children }: { children: ReactNode }) {
   const [popoutError, setPopoutError] = useState<boolean>(false);
-  const expanded =
-    new URLSearchParams(window.location.search).get("expanded") === "true";
+  const { popout, setPopout } = useAppContext();
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+  const navigate = useNavigate();
   const theme = useMemo(
     () =>
       createTheme({
@@ -32,7 +35,18 @@ export default function PageLayout({ children }: { children: ReactNode }) {
     [prefersDarkMode]
   );
 
+  useEffect(() => {
+    function init() {
+      setPopout(
+        new URLSearchParams(window.location.search).get("expanded") === "true"
+      );
+    }
+
+    init();
+  }, []);
+
   const handlePopout = () => {
+    navigate(ROUTES.HOME.path);
     const open = window.open(
       "popup.html?expanded=true",
       "popup",
@@ -47,7 +61,7 @@ export default function PageLayout({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Stack className="page-layout" sx={{}}>
+      <Stack className="page-layout">
         {popoutError && (
           <Alert
             severity="error"
@@ -64,7 +78,7 @@ export default function PageLayout({ children }: { children: ReactNode }) {
             spacing={1}
             sx={{ position: "absolute", right: 0, zIndex: "mobileStepper" }}
           >
-            {!expanded && (
+            {!popout && (
               <Box>
                 <IconButton
                   aria-label="pop out"

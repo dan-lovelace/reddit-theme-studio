@@ -14,18 +14,17 @@ import {
 import { Link } from "react-router-dom";
 
 import { ROUTES } from "../../lib/routes";
-
-const defaultThemes = [
-  {
-    label: "Hacker News",
-  },
-];
+import defaultThemes from "../../lib/themes";
 
 export default function OptionsMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleItemClick = () => {
+    handleClose();
+  };
+
+  const handleOpen = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -33,9 +32,13 @@ export default function OptionsMenu() {
     setAnchorEl(null);
   };
 
+  const handleThemeClick = (id: string) => () => {
+    handleClose();
+  };
+
   return (
     <Box>
-      <IconButton onClick={handleClick}>
+      <IconButton onClick={handleOpen}>
         <MenuIcon />
       </IconButton>
       <Menu
@@ -52,8 +55,8 @@ export default function OptionsMenu() {
         }}
         onClose={handleClose}
       >
-        {defaultThemes.map((item, idx) => (
-          <MenuItem key={idx} dense>
+        {defaultThemes.map((item) => (
+          <MenuItem key={item.id} dense onClick={handleItemClick}>
             <ListItemIcon>
               <StyleIcon />
             </ListItemIcon>
@@ -62,7 +65,7 @@ export default function OptionsMenu() {
         ))}
         <Divider />
         <Link to={ROUTES.THEME.path}>
-          <MenuItem dense>
+          <MenuItem dense onClick={handleItemClick}>
             <ListItemIcon>
               <SettingsIcon />
             </ListItemIcon>
