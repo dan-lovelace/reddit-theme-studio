@@ -104,3 +104,7 @@ To create and package a new version for publishing:
 Log in to either the [Chrome Web Store](https://chrome.google.com/webstore/)
 (Manifest V3) or [Firefox Addon Hub](https://addons.mozilla.org/en-US/firefox/)
 (Manifest V2), upload the new version and submit for review.
+
+When complete, create a new release in GitHub with a tag that matches the new
+version (i.e. `v0.0.1`). Highlight changes under a "Changes" heading as seen in
+previous releases.
