@@ -16,9 +16,9 @@ https://old.reddit.com/r/popular.json. The extension works by fetching the
 current page's JSON and applying your own HTML and CSS to provide a customized
 user experience.
 
-|                        Theme                        |                Editor                 |
-| :-------------------------------------------------: | :-----------------------------------: |
-| ![HackerNews](lib/screenshots/hackernews-theme.png) | ![Editor](lib/screenshots/editor.png) |
+|                         Theme                          |                  Editor                  |
+| :----------------------------------------------------: | :--------------------------------------: |
+| ![HackerNews](assets/screenshots/hackernews-theme.png) | ![Editor](assets/screenshots/editor.png) |
 
 # Creating your first theme
 
@@ -62,8 +62,8 @@ for testing.
 | `yarn build 3` | Creates a build using Manifest V3                                                |
 
 <sup>+</sup> If you'd instead like to develop using V2, you'll need to copy the
-contents of `lib/manifest-v2.json` into `packages/content/public/manifest.json`
-and run a clean build.
+contents of `assets/manifest-v2.json` into
+`packages/content/public/manifest.json` and run a clean build.
 
 ## 3. Add browser extension
 

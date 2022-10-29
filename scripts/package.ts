@@ -6,6 +6,7 @@ import path from "path";
 import archiver from "archiver";
 
 const __dirname = process.cwd();
+const VERSIONS_DIR = "versions";
 
 function main() {
   const manifestVersion = process.argv[2];
@@ -18,8 +19,13 @@ function main() {
 
     const packageJson = fs.readFileSync("package.json", "utf-8");
     const packageVersion = JSON.parse(packageJson).version;
+
+    if (!fs.existsSync(VERSIONS_DIR)) {
+      fs.mkdirSync(VERSIONS_DIR);
+    }
+
     const output = fs.createWriteStream(
-      path.join(__dirname, "versions", `${packageVersion}.zip`)
+      path.join(__dirname, VERSIONS_DIR, `${packageVersion}.zip`)
     );
     const archive = archiver("zip", {
       zlib: {
@@ -32,7 +38,10 @@ function main() {
     });
 
     archive.pipe(output);
-    archive.directory("dist/", false);
+    archive.glob("**/*", {
+      cwd: "dist",
+      ignore: [".DS_Store"],
+    });
     archive.finalize();
 
     output.on("close", () => {

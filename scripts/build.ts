@@ -4,15 +4,12 @@
   # DESCRIPTION
 
   This script takes a given manifest version (2 or 3) and generates a
-  supported `manifest.json` file from the template located in
-  `lib/manifest-template.txt`. It first runs `yarn build` then replaces values
-  in the template based on the version it receives before writing the resulting
-  JSON into the `dist` directory under the file name `manifest.json`.
+  supported `manifest.json` file. Output is placed in the `dist` directory.
 
   # USAGE
 
   ```sh
-  node build.mjs [2 | 3]
+  ts-node build.ts [2 | 3]
   ```
 
   # WHY
@@ -45,7 +42,7 @@ function main() {
   }
 
   const manifestJson = fs.readFileSync(
-    path.join(__dirname, "lib", `manifest-v${manifestVersion}.json`),
+    path.join(__dirname, "assets", `manifest-v${manifestVersion}.json`),
     "utf-8"
   );
 
