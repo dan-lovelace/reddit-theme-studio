@@ -89,3 +89,18 @@ chrome.storage.sync.get((result) => {
   Object.keys(result).forEach((key) => chrome.storage.sync.remove(key));
 });
 ```
+
+# Creating & publishing versions
+
+To create and package a new version for publishing:
+
+1. Increment the version in `package.json` - Use
+   [Semantic Versioning](https://semver.org/) standards
+1. Run `yarn package <manifest version>` - Target either Manifest version `2` or
+   `3` (i.e. `yarn package 3`)
+1. Inspect the output zip file in the `versions` directory to make sure
+   everything looks right
+
+Log in to either the [Chrome Web Store](https://chrome.google.com/webstore/)
+(Manifest V3) or [Firefox Addon Hub](https://addons.mozilla.org/en-US/firefox/)
+(Manifest V2), upload the new version and submit for review.
