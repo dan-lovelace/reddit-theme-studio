@@ -1,6 +1,6 @@
 import { RouteObject } from "react-router-dom";
 
-import HomePage from "../containers/HomePage";
+import EditorPage from "../containers/EditorPage";
 import ThemePage from "../containers/ThemePage";
 
 type Route = RouteObject & {
@@ -10,7 +10,11 @@ type Route = RouteObject & {
 export const ROUTES: { [key: string]: Route } = {
   HOME: {
     path: "/",
-    element: <HomePage />,
+    element: false,
+  },
+  EDITOR: {
+    path: "/editor",
+    element: <EditorPage />,
   },
   THEME: {
     path: "/theme",

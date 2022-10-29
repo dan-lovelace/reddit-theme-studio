@@ -7,7 +7,7 @@ import { StyleInput, TemplateInput } from "../../components/TemplateInput";
 
 const { SELECTED_TAB } = STORAGE_KEYS;
 
-export default function HomePage() {
+export default function EditorPage() {
   const [activeTab, setActiveTab] = useState<number>(0);
   const [initialized, setInitialized] = useState<boolean>(false);
 
@@ -33,7 +33,7 @@ export default function HomePage() {
   return (
     <>
       {initialized && (
-        <Stack className="home-page">
+        <Stack className="editor-page">
           <Box sx={{ flex: "1 1 auto" }}>
             <Tabs value={activeTab} onChange={handleTabChange} sx={{ mb: 1 }}>
               <Tab label="HTML" />

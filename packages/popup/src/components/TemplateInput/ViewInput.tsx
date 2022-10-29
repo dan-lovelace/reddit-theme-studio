@@ -2,12 +2,13 @@ import { useEffect, useRef, useState } from "react";
 
 import { Box, Button, InputLabel } from "@mui/material";
 import { browser, STORAGE_KEYS } from "@rju/core";
-import { TView, TViewInputValue } from "@rju/types";
+import { TTheme, TView, TViewInputValue } from "@rju/types";
 
 import { getSaveShortcut, saveListener } from ".";
+import { useToastContext } from "../../contexts/toast";
 import CodeEditor from "../CodeEditor";
 
-const { CURRENT_TEMPLATE } = STORAGE_KEYS;
+const { CURRENT_THEME, CUSTOM_THEMES } = STORAGE_KEYS;
 
 type ViewInputProps = {
   initialState: TViewInputValue;
@@ -18,6 +19,7 @@ export default function ViewInput({ initialState, view }: ViewInputProps) {
   const [templateValues, setTemplateValues] =
     useState<TViewInputValue>(initialState);
   const [initialized, setInitialized] = useState<boolean>(false);
+  const { notify } = useToastContext();
   const canSave =
     templateValues.template ||
     !templateValues.partials ||
@@ -30,24 +32,41 @@ export default function ViewInput({ initialState, view }: ViewInputProps) {
 
   useEffect(() => {
     async function init() {
-      const viewTemplate = CURRENT_TEMPLATE[view];
-      const code = await browser.storage.sync.get(viewTemplate);
-      if (Object.prototype.hasOwnProperty.call(code, viewTemplate)) {
-        setTemplateValues(code[viewTemplate]);
+      const storedCurrentTheme = await browser.storage.sync.get(CURRENT_THEME);
+      const storedCustomThemes = await browser.storage.sync.get(CUSTOM_THEMES);
+
+      if (
+        Object.prototype.hasOwnProperty.call(
+          storedCurrentTheme,
+          CURRENT_THEME
+        ) &&
+        Object.prototype.hasOwnProperty.call(storedCustomThemes, CUSTOM_THEMES)
+      ) {
+        const customTheme: TTheme = storedCustomThemes[CUSTOM_THEMES].find(
+          (t: TTheme) => t.id === storedCurrentTheme[CURRENT_THEME].id
+        );
+
+        if (!customTheme) {
+          return notify("Error loading custom theme template");
+        }
+
+        setTemplateValues(customTheme.inputs[view]);
       }
 
-      document.addEventListener("keydown", (event) =>
-        saveListener(event, handleSave)
-      );
       setInitialized(true);
     }
 
     init();
 
+    // configure save hotkey
+    const keyDownListener = (event: KeyboardEvent) => {
+      saveListener(event, handleSave);
+    };
+
+    document.addEventListener("keydown", keyDownListener);
+
     return () => {
-      document.removeEventListener("keydown", (event) =>
-        saveListener(event, handleSave)
-      );
+      document.removeEventListener("keydown", keyDownListener);
     };
   }, []);
 
@@ -68,10 +87,24 @@ export default function ViewInput({ initialState, view }: ViewInputProps) {
     setTemplateValues(newValues);
   };
 
-  const handleSave = () => {
-    browser.storage.sync.set({
-      [CURRENT_TEMPLATE[view]]: templateValuesRef.current,
-    });
+  const handleSave = async () => {
+    const storedCurrentTheme = await browser.storage.sync.get(CURRENT_THEME);
+    const storedCustomThemes = await browser.storage.sync.get(CUSTOM_THEMES);
+    const existing: TTheme[] = storedCustomThemes[CUSTOM_THEMES];
+    const existingIdx = existing.findIndex(
+      (t: TTheme) => t.id === storedCurrentTheme[CURRENT_THEME].id
+    );
+
+    existing[existingIdx].inputs[view] = {
+      ...existing[existingIdx].inputs[view],
+      ...templateValuesRef.current,
+    };
+
+    const newValue = {
+      [CUSTOM_THEMES]: existing,
+    };
+
+    browser.storage.sync.set(newValue);
   };
 
   return (
@@ -104,7 +137,7 @@ export default function ViewInput({ initialState, view }: ViewInputProps) {
             disabled={Boolean(!canSave)}
             onClick={handleSave}
           >
-            Apply ({getSaveShortcut()})
+            Save ({getSaveShortcut()})
           </Button>
         </Box>
       )}

@@ -2,6 +2,8 @@ import { ChangeEvent, FormEvent, MouseEvent, useEffect, useState } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
 import {
+  Alert,
+  AlertTitle,
   Box,
   Button,
   Divider,
@@ -10,15 +12,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { browser, STORAGE_KEYS } from "@rju/core";
+import { browser, premadeThemes, STORAGE_KEYS } from "@rju/core";
 import { TTheme } from "@rju/types";
 import { kebabCase } from "lodash";
 
 import { useToastContext } from "../../contexts/toast";
-import defaultThemes from "../../lib/themes";
 import ThemeItem from "./ThemeItem";
 
-const { SAVED_THEMES } = STORAGE_KEYS;
+const { CUSTOM_THEMES } = STORAGE_KEYS;
 
 export default function ThemePage() {
   const [creating, setCreating] = useState<boolean>(false);
@@ -29,9 +30,9 @@ export default function ThemePage() {
 
   useEffect(() => {
     async function init() {
-      const themes = await browser.storage.sync.get(SAVED_THEMES);
-      if (Object.prototype.hasOwnProperty.call(themes, SAVED_THEMES)) {
-        setSavedThemes(themes[SAVED_THEMES]);
+      const themes = await browser.storage.sync.get(CUSTOM_THEMES);
+      if (Object.prototype.hasOwnProperty.call(themes, CUSTOM_THEMES)) {
+        setSavedThemes(themes[CUSTOM_THEMES]);
       }
 
       setInitialized(true);
@@ -51,14 +52,19 @@ export default function ThemePage() {
       return;
     }
 
-    // TODO: id validation
     const id = kebabCase(trimmed);
     const newTheme: TTheme = {
       id,
       label: trimmed,
       inputs: {
         comments: {
-          partials: [],
+          partials: [
+            {
+              label: "Comments partial",
+              name: "comments",
+              template: "",
+            },
+          ],
           template: "",
         },
         style: "",
@@ -67,13 +73,14 @@ export default function ThemePage() {
           template: "",
         },
       },
+      type: "custom",
     };
 
     let existingThemes: TTheme[] = [];
-    const themes = await browser.storage.sync.get(SAVED_THEMES);
+    const themes = await browser.storage.sync.get(CUSTOM_THEMES);
 
-    if (Object.prototype.hasOwnProperty.call(themes, SAVED_THEMES)) {
-      existingThemes = themes[SAVED_THEMES];
+    if (Object.prototype.hasOwnProperty.call(themes, CUSTOM_THEMES)) {
+      existingThemes = themes[CUSTOM_THEMES];
     }
 
     if (existingThemes.some((t: TTheme) => t.id === id)) {
@@ -84,10 +91,9 @@ export default function ThemePage() {
     const newThemes = [...existingThemes, newTheme];
 
     await browser.storage.sync.set({
-      [SAVED_THEMES]: newThemes,
+      [CUSTOM_THEMES]: newThemes,
     });
 
-    // TODO: apply empty theme
     setSavedThemes(newThemes);
     handleEndCreate();
   };
@@ -112,24 +118,25 @@ export default function ThemePage() {
       {initialized && (
         <Stack className="theme-page">
           <Typography variant="h6">Themes</Typography>
-          <Typography variant="caption">Premade</Typography>
-          <List>
-            {defaultThemes.map((theme) => (
-              <ThemeItem key={theme.id} themeData={theme} />
-            ))}
-          </List>
-          <Divider sx={{ mb: 1 }} />
           <Typography variant="caption">Custom</Typography>
           <List>
-            {savedThemes.map((theme) => (
-              <ThemeItem
-                key={theme.id}
-                editable
-                savedThemes={savedThemes}
-                themeData={theme}
-                setSavedThemes={setSavedThemes}
-              />
-            ))}
+            {savedThemes.length > 0 ? (
+              savedThemes.map((theme) => (
+                <ThemeItem
+                  key={theme.id}
+                  editable
+                  savedThemes={savedThemes}
+                  themeData={theme}
+                  setSavedThemes={setSavedThemes}
+                />
+              ))
+            ) : (
+              <Alert severity="info">
+                <AlertTitle>No custom themes</AlertTitle>
+                You haven't created any themes yet. Click the button below to
+                get started.
+              </Alert>
+            )}
           </List>
           <Box>
             {creating ? (
@@ -141,6 +148,7 @@ export default function ThemePage() {
                 >
                   <TextField
                     autoComplete="off"
+                    autoFocus
                     label="Name"
                     size="small"
                     value={creatingName}
@@ -168,7 +176,13 @@ export default function ThemePage() {
               </Button>
             )}
           </Box>
-          {/* <div>{JSON.stringify(savedThemes, null, 2)}</div> */}
+          <Divider sx={{ my: 1 }} />
+          <Typography variant="caption">Premade</Typography>
+          <List>
+            {premadeThemes.map((theme) => (
+              <ThemeItem key={theme.id} themeData={theme} />
+            ))}
+          </List>
         </Stack>
       )}
     </>

@@ -2,6 +2,7 @@ import { TConfig, TView } from "@rju/types";
 import { RouteObject } from "react-router-dom";
 
 type Route = RouteObject & {
+  path: string;
   view: TView;
 };
 

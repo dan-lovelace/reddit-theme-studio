@@ -1,25 +1,40 @@
-import { browser, MESSAGE_ACTIONS, STORAGE_KEYS } from "@rju/core";
-import { TConfig, TMessageEvent, TSandboxMessage } from "@rju/types";
-import { matchRoutes } from "react-router-dom";
+import {
+  browser,
+  getCurrentTheme,
+  MESSAGE_ACTIONS,
+  STORAGE_KEYS,
+} from "@rju/core";
+import {
+  TConfig,
+  TMessageEvent,
+  TSandboxMessage,
+  TThemeChanged,
+} from "@rju/types";
 
-import { ROUTES } from "./routes";
+import { getConfig } from "./config";
 import { getTemplateContext } from "./sandbox";
 
-export function handleMessageEvent(event: TMessageEvent<string>) {
+export function handleMessageEvent(event: TMessageEvent<TThemeChanged>) {
   const { action, value } = event;
 
   switch (action) {
-    case MESSAGE_ACTIONS.UPDATE_STYLE: {
+    case MESSAGE_ACTIONS.UPDATE_THEME: {
+      const config = getConfig();
+
       const styleEl = document.getElementById("rju-style") as HTMLStyleElement;
+      const contentEl = document.getElementById(
+        "rju-content"
+      ) as HTMLDivElement;
 
-      styleEl.innerHTML = value;
-      break;
-    }
-
-    case MESSAGE_ACTIONS.UPDATE_TEMPLATE: {
-      const content = document.getElementById("rju-content") as HTMLDivElement;
-
-      content.innerHTML = value;
+      if (value === null) {
+        styleEl.innerHTML = "";
+        contentEl.innerHTML = "";
+        document.documentElement.classList.remove(config.mode);
+      } else {
+        styleEl.innerHTML = value.style;
+        contentEl.innerHTML = value.compiled;
+        document.documentElement.classList.add(config.mode);
+      }
       break;
     }
 
@@ -36,50 +51,40 @@ export function sendSandboxMessage<T>(message: TSandboxMessage<T>) {
 }
 
 export function startListeners<T>(data: T, config: TConfig) {
-  browser.runtime.onMessage.addListener((event: TMessageEvent<string>) => {
-    handleMessageEvent(event);
-  });
+  browser.runtime.onMessage.addListener(
+    (event: TMessageEvent<TThemeChanged>) => {
+      handleMessageEvent(event);
+    }
+  );
 
-  browser.storage.onChanged.addListener((event) => {
-    const routeMatch = matchRoutes(ROUTES, window.location.pathname);
-
+  browser.storage.onChanged.addListener(async (event) => {
     for (const key of Object.keys(event)) {
-      const {
-        [key]: { newValue },
-      } = event;
-
       switch (key) {
-        case STORAGE_KEYS.CURRENT_STYLE: {
+        case STORAGE_KEYS.CURRENT_THEME: {
+          // current theme changed or was removed
+          const themeToApply = await getCurrentTheme(config);
+
           sendSandboxMessage({
+            context: getTemplateContext(data, config),
             event: {
-              action: MESSAGE_ACTIONS.UPDATE_STYLE,
-              value: newValue,
+              action: MESSAGE_ACTIONS.UPDATE_THEME,
+              value: themeToApply,
             },
           });
           break;
         }
 
-        case STORAGE_KEYS.CURRENT_TEMPLATE.comments: {
-          if (routeMatch?.[0].route.view !== "comments") break;
+        case STORAGE_KEYS.CUSTOM_THEMES: {
+          // custom theme changed
+          const themeToApply = await getCurrentTheme(config);
+
+          if (!themeToApply) return;
 
           sendSandboxMessage({
             context: getTemplateContext(data, config),
             event: {
-              action: MESSAGE_ACTIONS.UPDATE_TEMPLATE,
-              value: newValue,
-            },
-          });
-          break;
-        }
-
-        case STORAGE_KEYS.CURRENT_TEMPLATE.subreddit: {
-          if (routeMatch?.[0].route.view !== "subreddit") break;
-
-          sendSandboxMessage({
-            context: getTemplateContext(data, config),
-            event: {
-              action: MESSAGE_ACTIONS.UPDATE_TEMPLATE,
-              value: newValue,
+              action: MESSAGE_ACTIONS.UPDATE_THEME,
+              value: themeToApply,
             },
           });
           break;
@@ -90,7 +95,7 @@ export function startListeners<T>(data: T, config: TConfig) {
 
   window.addEventListener(
     "message",
-    (event: MessageEvent<TMessageEvent<string>>) => {
+    (event: MessageEvent<TMessageEvent<TThemeChanged>>) => {
       handleMessageEvent(event.data);
     }
   );

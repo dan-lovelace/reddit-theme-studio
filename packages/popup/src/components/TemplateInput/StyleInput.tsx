@@ -2,15 +2,18 @@ import { useEffect, useRef, useState } from "react";
 
 import { Box, Button } from "@mui/material";
 import { browser, STORAGE_KEYS } from "@rju/core";
+import { TTheme } from "@rju/types";
 
 import { getSaveShortcut, saveListener } from ".";
+import { useToastContext } from "../../contexts/toast";
 import CodeEditor from "../CodeEditor";
 
-const { CURRENT_STYLE } = STORAGE_KEYS;
+const { CURRENT_THEME, CUSTOM_THEMES } = STORAGE_KEYS;
 
 export function StyleInput() {
   const [styleValue, setStyleValue] = useState<string>("");
   const [initialized, setInitialized] = useState<boolean>(false);
+  const { notify } = useToastContext();
 
   // configure a ref for styleValue so the latest value can be accessed within
   // save listener
@@ -19,23 +22,41 @@ export function StyleInput() {
 
   useEffect(() => {
     async function init() {
-      const style = await browser.storage.sync.get(CURRENT_STYLE);
-      if (Object.prototype.hasOwnProperty.call(style, CURRENT_STYLE)) {
-        setStyleValue(style[CURRENT_STYLE]);
+      const storedCurrentTheme = await browser.storage.sync.get(CURRENT_THEME);
+      const storedCustomThemes = await browser.storage.sync.get(CUSTOM_THEMES);
+
+      if (
+        Object.prototype.hasOwnProperty.call(
+          storedCurrentTheme,
+          CURRENT_THEME
+        ) &&
+        Object.prototype.hasOwnProperty.call(storedCustomThemes, CUSTOM_THEMES)
+      ) {
+        const customTheme: TTheme = storedCustomThemes[CUSTOM_THEMES].find(
+          (t: TTheme) => t.id === storedCurrentTheme[CURRENT_THEME].id
+        );
+
+        if (!customTheme) {
+          return notify("Error loading custom theme template");
+        }
+
+        setStyleValue(customTheme.inputs.style);
       }
 
-      document.addEventListener("keydown", (event) =>
-        saveListener(event, handleSave)
-      );
       setInitialized(true);
     }
 
     init();
 
+    // configure save hotkey
+    const keyDownListener = (event: KeyboardEvent) => {
+      saveListener(event, handleSave);
+    };
+
+    document.addEventListener("keydown", keyDownListener);
+
     return () => {
-      document.removeEventListener("keydown", (event) =>
-        saveListener(event, handleSave)
-      );
+      document.removeEventListener("keydown", keyDownListener);
     };
   }, []);
 
@@ -43,10 +64,21 @@ export function StyleInput() {
     setStyleValue(newValue);
   };
 
-  const handleSave = () => {
-    browser.storage.sync.set({
-      [STORAGE_KEYS.CURRENT_STYLE]: valueRef.current,
-    });
+  const handleSave = async () => {
+    const storedCurrentTheme = await browser.storage.sync.get(CURRENT_THEME);
+    const storedCustomThemes = await browser.storage.sync.get(CUSTOM_THEMES);
+    const existing: TTheme[] = storedCustomThemes[CUSTOM_THEMES];
+    const existingIdx = existing.findIndex(
+      (t: TTheme) => t.id === storedCurrentTheme[CURRENT_THEME].id
+    );
+
+    existing[existingIdx].inputs.style = valueRef.current ?? "";
+
+    const newValue = {
+      [CUSTOM_THEMES]: existing,
+    };
+
+    browser.storage.sync.set(newValue);
   };
 
   return (
@@ -66,7 +98,7 @@ export function StyleInput() {
             disabled={Boolean(!styleValue)}
             onClick={handleSave}
           >
-            Apply ({getSaveShortcut()})
+            Save ({getSaveShortcut()})
           </Button>
         </Box>
       )}

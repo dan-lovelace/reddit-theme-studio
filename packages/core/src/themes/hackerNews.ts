@@ -3,6 +3,7 @@ import { TTheme } from "@rju/types";
 const theme: TTheme = {
   id: "hacker-news",
   label: "Hacker News",
+  type: "premade",
   inputs: {
     comments: {
       partials: [

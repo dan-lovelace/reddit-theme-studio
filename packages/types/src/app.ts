@@ -18,19 +18,16 @@ export type TConfig = {
   view: TView;
 };
 
-export type TMessageAction = "update-style" | "update-template";
+export type TCurrentTheme = {
+  id: string;
+  type: TThemeType;
+};
 
-/**
- * Window message event
- * @example
- * {
- *   action: "update-style",
- *   value: "<div>{{logo.white}}</div>"
- * }
- */
+export type TMessageAction = "update-theme";
+
 export type TMessageEvent<T> = {
   action: TMessageAction;
-  value: T | string;
+  value: T;
 };
 
 export type TMode = "legacy" | "redesign";
@@ -53,8 +50,8 @@ export type TSandboxMessageEvent = {
 };
 
 export type TSandboxMessage<T> = {
-  context?: TSandboxContext<T>;
-  event: TMessageEvent<TSandboxMessageEvent>;
+  context: TSandboxContext<T>;
+  event: TMessageEvent<TTheme | null>;
 };
 
 export type TSandboxPartial = {
@@ -77,7 +74,20 @@ export type TTheme = {
     subreddit: TViewInputValue;
   };
   label: string;
+  outputs?: {
+    comments: TViewInputValue;
+    style: string;
+    subreddit: TViewInputValue;
+  };
+  type: TThemeType;
 };
+
+export type TThemeChanged = {
+  style: string;
+  compiled: string;
+} | null;
+
+export type TThemeType = "custom" | "premade";
 
 export type TView = "comments" | "subreddit";
 

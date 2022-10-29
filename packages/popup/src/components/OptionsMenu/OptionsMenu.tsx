@@ -2,19 +2,10 @@ import { MouseEvent, useState } from "react";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import SettingsIcon from "@mui/icons-material/Settings";
-import StyleIcon from "@mui/icons-material/Style";
-import {
-  Box,
-  Divider,
-  IconButton,
-  ListItemIcon,
-  Menu,
-  MenuItem,
-} from "@mui/material";
+import { Box, IconButton, ListItemIcon, Menu, MenuItem } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import { ROUTES } from "../../lib/routes";
-import defaultThemes from "../../lib/themes";
 
 export default function OptionsMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -30,10 +21,6 @@ export default function OptionsMenu() {
 
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  const handleThemeClick = (id: string) => () => {
-    handleClose();
   };
 
   return (
@@ -55,15 +42,6 @@ export default function OptionsMenu() {
         }}
         onClose={handleClose}
       >
-        {defaultThemes.map((item) => (
-          <MenuItem key={item.id} dense onClick={handleItemClick}>
-            <ListItemIcon>
-              <StyleIcon />
-            </ListItemIcon>
-            {item.label}
-          </MenuItem>
-        ))}
-        <Divider />
         <Link to={ROUTES.THEME.path}>
           <MenuItem dense onClick={handleItemClick}>
             <ListItemIcon>

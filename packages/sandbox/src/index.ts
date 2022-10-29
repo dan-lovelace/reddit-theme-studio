@@ -1,36 +1,40 @@
 // WARNING: import MESSAGE_ACTIONS using absolute path because
 // webextension-polyfill will throw an error otherwise
 import { MESSAGE_ACTIONS } from "@rju/core/src/message";
-import { TMessageEvent, TSandboxMessageEvent } from "@rju/types";
+import { TSandboxMessage } from "@rju/types";
 import Handlebars from "handlebars";
 
 import "./helpers";
 
 window.addEventListener("message", (message) => {
-  const {
-    data: { context, event },
-    origin,
-    source,
-  } = message;
-  let messageEvent: TMessageEvent<any> = event;
+  const { data, origin, source } = message;
+  const { context, event }: TSandboxMessage<any> = data;
 
-  switch (messageEvent.action) {
-    case MESSAGE_ACTIONS.UPDATE_TEMPLATE: {
-      const sandboxValue: TSandboxMessageEvent = messageEvent.value;
+  if (event.value === null) {
+    return source?.postMessage(event, { targetOrigin: origin });
+  }
 
-      for (const partial of sandboxValue.partials) {
+  switch (event.action) {
+    case MESSAGE_ACTIONS.UPDATE_THEME: {
+      const inputValue = event.value.inputs[context.config.view];
+
+      for (const partial of inputValue.partials) {
         Handlebars.registerPartial(partial.name, partial.template);
       }
 
-      const compiled = Handlebars.compile(sandboxValue.template)(context);
+      const compiled = Handlebars.compile(inputValue.template)(context);
 
-      messageEvent = {
-        action: MESSAGE_ACTIONS.UPDATE_TEMPLATE,
-        value: compiled,
-      };
+      source?.postMessage(
+        {
+          action: event.action,
+          value: {
+            style: event.value.inputs.style,
+            compiled,
+          },
+        },
+        { targetOrigin: origin }
+      );
       break;
     }
   }
-
-  source?.postMessage(messageEvent, { targetOrigin: origin });
 });

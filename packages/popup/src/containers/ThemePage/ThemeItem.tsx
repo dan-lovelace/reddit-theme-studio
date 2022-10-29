@@ -1,23 +1,21 @@
-import { ChangeEvent, FormEvent, MouseEvent, useState } from "react";
+import { useState } from "react";
 
 import ClearIcon from "@mui/icons-material/Clear";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import {
-  Box,
-  Button,
   ClickAwayListener,
   IconButton,
   MenuItem,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
-import { browser, STORAGE_KEYS } from "@rju/core";
-import { TTheme } from "@rju/types";
-import { kebabCase } from "lodash";
+import { applyTheme, browser, STORAGE_KEYS } from "@rju/core";
+import { TCurrentTheme, TTheme } from "@rju/types";
+import { useNavigate } from "react-router-dom";
 
 import { useToastContext } from "../../contexts/toast";
+import { ROUTES } from "../../lib/routes";
 
 type ThemeItemProps = {
   editable?: boolean;
@@ -26,7 +24,7 @@ type ThemeItemProps = {
   setSavedThemes?: (newValue: TTheme[]) => void;
 };
 
-const { SAVED_THEMES } = STORAGE_KEYS;
+const { CURRENT_THEME, CUSTOM_THEMES: SAVED_THEMES } = STORAGE_KEYS;
 
 export default function ThemeItem({
   editable = false,
@@ -34,15 +32,16 @@ export default function ThemeItem({
   setSavedThemes,
 }: ThemeItemProps) {
   const [confirmingDelete, setConfirmingDelete] = useState<boolean>(false);
-  const [editing, setEditing] = useState<boolean>(false);
-  const [editingName, setEditingName] = useState<string>(themeData.label);
   const { notify } = useToastContext();
+  const navigate = useNavigate();
 
   const handleCancelConfirmDelete = () => {
     setConfirmingDelete(false);
   };
 
   const handleConfirmDeleteClick = async () => {
+    const storedCurrentTheme = await browser.storage.sync.get(CURRENT_THEME);
+    const currentTheme = storedCurrentTheme[CURRENT_THEME];
     const themes = await browser.storage.sync.get(SAVED_THEMES);
     const newThemes: TTheme[] = themes[SAVED_THEMES];
     const themeIdx = newThemes.findIndex((t: TTheme) => t.id === themeData.id);
@@ -56,6 +55,9 @@ export default function ThemeItem({
 
     await browser.storage.sync.set({
       [SAVED_THEMES]: newThemes,
+
+      // unset current theme if it was deleted
+      [CURRENT_THEME]: currentTheme?.id === themeData.id ? null : currentTheme,
     });
 
     setSavedThemes?.(newThemes);
@@ -66,136 +68,66 @@ export default function ThemeItem({
     setConfirmingDelete(true);
   };
 
-  const handleEdit = async (
-    event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
-    const trimmed = editingName.trim();
+  const handleEditClick = () => {
+    applyTheme(themeData);
+    navigate(ROUTES.EDITOR.path);
+  };
 
-    if (!trimmed) {
-      notify("Name is required");
-      return;
-    }
-
-    const themes = await browser.storage.sync.get(SAVED_THEMES);
-    const newThemes: TTheme[] = themes[SAVED_THEMES];
-    const themeIdx = newThemes.findIndex((t: TTheme) => t.id === themeData.id);
-
-    if (themeIdx < 0) {
-      notify("Error editing theme");
-      return;
-    }
-
-    const id = kebabCase(trimmed);
-    const existingIdIdx = newThemes.findIndex((t: TTheme) => t.id === id);
-    if (themeIdx !== existingIdIdx) {
-      notify("A theme with this name already exists");
-      return;
-    }
-
-    newThemes[themeIdx] = {
-      ...newThemes[themeIdx],
-      id,
-      label: trimmed,
+  const handleThemeClick = () => {
+    const newTheme: TCurrentTheme = {
+      id: themeData.id,
+      type: themeData.type,
     };
 
-    await browser.storage.sync.set({
-      [SAVED_THEMES]: newThemes,
+    browser.storage.sync.set({
+      [CURRENT_THEME]: newTheme,
     });
-
-    setSavedThemes?.(newThemes);
-    handleEndEdit();
-  };
-
-  const handleEditClick = () => {
-    setEditing(true);
-  };
-
-  const handleEditingNameChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setEditingName(event.target.value);
-  };
-
-  const handleEndEdit = () => {
-    setEditing(false);
-    setEditingName(themeData.label);
   };
 
   return (
-    <Box>
-      {editing ? (
-        <form onSubmit={handleEdit}>
-          <Stack
-            direction="row"
-            spacing={1}
-            sx={{ alignItems: "center", width: "100%" }}
-          >
-            <TextField
-              autoComplete="off"
-              label="Name"
-              size="small"
-              value={editingName}
-              onChange={handleEditingNameChange}
-              required
-              sx={{ flex: "1 1 auto" }}
-            />
-            <Button type="submit" variant="contained" onClick={handleEdit}>
-              Save
-            </Button>
-            <Button onClick={handleEndEdit}>Cancel</Button>
-          </Stack>
-        </form>
-      ) : (
-        <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
-          <MenuItem dense sx={{ flex: "1 1 auto", overflow: "hidden" }}>
-            <Typography
-              variant="body2"
-              sx={{
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                width: "100%",
-              }}
-            >
-              {themeData.label}
-            </Typography>
-          </MenuItem>
-          {editable && (
-            <Stack direction="row" spacing={1}>
+    <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+      <MenuItem
+        sx={{ flex: "1 1 auto", overflow: "hidden" }}
+        onClick={handleThemeClick}
+      >
+        <Typography
+          variant="body1"
+          sx={{
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            width: "100%",
+          }}
+        >
+          {themeData.label}
+        </Typography>
+      </MenuItem>
+      {editable && (
+        <Stack direction="row" spacing={1}>
+          <IconButton aria-label="edit" title="Edit" onClick={handleEditClick}>
+            <EditIcon />
+          </IconButton>
+          {confirmingDelete ? (
+            <ClickAwayListener onClickAway={handleCancelConfirmDelete}>
               <IconButton
-                aria-label="edit"
-                size="small"
-                title="Edit"
-                onClick={handleEditClick}
+                aria-label="confirm delete"
+                color="error"
+                title="Confirm delete"
+                onClick={handleConfirmDeleteClick}
               >
-                <EditIcon fontSize="small" />
+                <DeleteIcon />
               </IconButton>
-              {confirmingDelete ? (
-                <ClickAwayListener onClickAway={handleCancelConfirmDelete}>
-                  <IconButton
-                    aria-label="confirm delete"
-                    color="error"
-                    size="small"
-                    title="Confirm delete"
-                    onClick={handleConfirmDeleteClick}
-                  >
-                    <DeleteIcon fontSize="small" />
-                  </IconButton>
-                </ClickAwayListener>
-              ) : (
-                <IconButton
-                  aria-label="delete"
-                  size="small"
-                  title="Delete"
-                  onClick={handleDeleteClick}
-                >
-                  <ClearIcon fontSize="small" />
-                </IconButton>
-              )}
-            </Stack>
+            </ClickAwayListener>
+          ) : (
+            <IconButton
+              aria-label="delete"
+              title="Delete"
+              onClick={handleDeleteClick}
+            >
+              <ClearIcon />
+            </IconButton>
           )}
         </Stack>
       )}
-    </Box>
+    </Stack>
   );
 }
