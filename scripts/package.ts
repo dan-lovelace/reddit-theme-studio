@@ -25,7 +25,11 @@ function main() {
     }
 
     const output = fs.createWriteStream(
-      path.join(__dirname, VERSIONS_DIR, `${packageVersion}.zip`)
+      path.join(
+        __dirname,
+        VERSIONS_DIR,
+        `${packageVersion}_mv${manifestVersion}.zip`
+      )
     );
     const archive = archiver("zip", {
       zlib: {
