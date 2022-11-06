@@ -13,7 +13,7 @@ export default function EditorPage() {
 
   useEffect(() => {
     async function init() {
-      const tab = await browser.storage.sync.get(SELECTED_TAB);
+      const tab = await browser.storage.local.get(SELECTED_TAB);
       if (Object.prototype.hasOwnProperty.call(tab, SELECTED_TAB)) {
         setActiveTab(tab[SELECTED_TAB]);
       }
@@ -27,7 +27,7 @@ export default function EditorPage() {
   const handleTabChange = (_: React.SyntheticEvent, newIndex: number) => {
     setActiveTab(newIndex);
 
-    browser.storage.sync.set({ [SELECTED_TAB]: newIndex });
+    browser.storage.local.set({ [SELECTED_TAB]: newIndex });
   };
 
   return (

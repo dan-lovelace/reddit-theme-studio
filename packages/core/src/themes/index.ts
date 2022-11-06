@@ -25,7 +25,7 @@ const helpTheme: TTheme = {
 export const premadeThemes = [hackerNews];
 
 export function applyTheme(theme: TTheme) {
-  browser.storage.sync.set({
+  browser.storage.local.set({
     [CURRENT_THEME]: {
       id: theme.id,
       type: theme.type,
@@ -34,7 +34,7 @@ export function applyTheme(theme: TTheme) {
 }
 
 export async function getCurrentTheme(config: TConfig) {
-  const storedCurrentTheme = await browser.storage.sync.get(CURRENT_THEME);
+  const storedCurrentTheme = await browser.storage.local.get(CURRENT_THEME);
   const currentTheme: TTheme = storedCurrentTheme[CURRENT_THEME];
 
   if (!currentTheme) {
@@ -46,7 +46,7 @@ export async function getCurrentTheme(config: TConfig) {
   switch (currentTheme.type) {
     case "custom": {
       // load from storage
-      const storedCustomThemes = await browser.storage.sync.get(CUSTOM_THEMES);
+      const storedCustomThemes = await browser.storage.local.get(CUSTOM_THEMES);
       const customThemes: TTheme[] = storedCustomThemes[CUSTOM_THEMES];
 
       if (customThemes && customThemes.length) {

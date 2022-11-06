@@ -13,7 +13,7 @@ function AppContent() {
 
   useEffect(() => {
     async function init() {
-      const storage = await browser.storage.sync.get(
+      const storage = await browser.storage.local.get(
         STORAGE_KEYS.CURRENT_THEME
       );
 

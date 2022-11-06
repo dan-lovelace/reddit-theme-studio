@@ -22,8 +22,8 @@ export function StyleInput() {
 
   useEffect(() => {
     async function init() {
-      const storedCurrentTheme = await browser.storage.sync.get(CURRENT_THEME);
-      const storedCustomThemes = await browser.storage.sync.get(CUSTOM_THEMES);
+      const storedCurrentTheme = await browser.storage.local.get(CURRENT_THEME);
+      const storedCustomThemes = await browser.storage.local.get(CUSTOM_THEMES);
 
       if (
         Object.prototype.hasOwnProperty.call(
@@ -65,8 +65,8 @@ export function StyleInput() {
   };
 
   const handleSave = async () => {
-    const storedCurrentTheme = await browser.storage.sync.get(CURRENT_THEME);
-    const storedCustomThemes = await browser.storage.sync.get(CUSTOM_THEMES);
+    const storedCurrentTheme = await browser.storage.local.get(CURRENT_THEME);
+    const storedCustomThemes = await browser.storage.local.get(CUSTOM_THEMES);
     const existing: TTheme[] = storedCustomThemes[CUSTOM_THEMES];
     const existingIdx = existing.findIndex(
       (t: TTheme) => t.id === storedCurrentTheme[CURRENT_THEME].id
@@ -78,7 +78,7 @@ export function StyleInput() {
       [CUSTOM_THEMES]: existing,
     };
 
-    browser.storage.sync.set(newValue);
+    browser.storage.local.set(newValue);
   };
 
   return (

@@ -22,7 +22,7 @@ export function TemplateInput() {
 
   useEffect(() => {
     async function init() {
-      const view: Record<string, TView> = await browser.storage.sync.get(
+      const view: Record<string, TView> = await browser.storage.local.get(
         SELECTED_VIEW
       );
       if (Object.prototype.hasOwnProperty.call(view, SELECTED_VIEW)) {
@@ -39,7 +39,7 @@ export function TemplateInput() {
     const value = event.target.value as TView;
 
     setViewValue(value);
-    browser.storage.sync.set({ [SELECTED_VIEW]: value });
+    browser.storage.local.set({ [SELECTED_VIEW]: value });
   };
 
   return (

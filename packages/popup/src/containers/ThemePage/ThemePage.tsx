@@ -30,7 +30,7 @@ export default function ThemePage() {
 
   useEffect(() => {
     async function init() {
-      const themes = await browser.storage.sync.get(CUSTOM_THEMES);
+      const themes = await browser.storage.local.get(CUSTOM_THEMES);
       if (Object.prototype.hasOwnProperty.call(themes, CUSTOM_THEMES)) {
         setSavedThemes(themes[CUSTOM_THEMES]);
       }
@@ -77,7 +77,7 @@ export default function ThemePage() {
     };
 
     let existingThemes: TTheme[] = [];
-    const themes = await browser.storage.sync.get(CUSTOM_THEMES);
+    const themes = await browser.storage.local.get(CUSTOM_THEMES);
 
     if (Object.prototype.hasOwnProperty.call(themes, CUSTOM_THEMES)) {
       existingThemes = themes[CUSTOM_THEMES];
@@ -90,7 +90,7 @@ export default function ThemePage() {
 
     const newThemes = [...existingThemes, newTheme];
 
-    await browser.storage.sync.set({
+    await browser.storage.local.set({
       [CUSTOM_THEMES]: newThemes,
     });
 
