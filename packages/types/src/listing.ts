@@ -42,6 +42,16 @@ export type TListingData = {
   children: TListingDataChild[];
 
   /**
+   * URL to the next page
+   */
+  nextUrl?: string;
+
+  /**
+   * URL to the previous page
+   */
+  prevUrl?: string;
+
+  /**
    * Number of listing results
    */
   dist: number | null;

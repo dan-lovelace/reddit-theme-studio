@@ -6,6 +6,8 @@ type Route = RouteObject & {
   view: TView;
 };
 
+export const DEFAULT_PAGE_LIMIT = 30;
+
 export const ROUTES: Route[] = [
   {
     path: "/",
@@ -29,11 +31,14 @@ export const getJson: (
   params?: Record<string, string>
 ) => any = async (config, params) => {
   const {
-    location: { pathname },
+    location: { pathname, search },
   } = window;
-
+  const searchEntries = new URLSearchParams(search).entries();
+  const searchObj = Object.fromEntries(searchEntries);
   const url = `https://${config.hostname}${pathname}.json${
-    params ? `?${new URLSearchParams(params).toString()}` : ""
+    params
+      ? `?${new URLSearchParams({ ...searchObj, ...params }).toString()}`
+      : ""
   }`;
   const result = await fetch(url, {
     headers: {

@@ -39,6 +39,8 @@ export type TSandboxContext<T> = {
     color: string;
     white: string;
   };
+  nextUrl?: string;
+  prevUrl?: string;
   subreddits: {
     text: string;
     to: string;
