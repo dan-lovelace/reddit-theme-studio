@@ -5,7 +5,7 @@
   "homepage_url": "https://github.com/dan-lovelace/reddit-json-ui",
   "manifest_version": 3,
   "icons": {
-    "128": "logo_128.png"
+    "128": "img/logo_128.png"
   },
   "action": {
     "default_popup": "popup.html"
@@ -24,11 +24,7 @@
   "permissions": ["declarativeContent", "storage"],
   "web_accessible_resources": [
     {
-      "resources": ["reddit_logo_32.png"],
-      "matches": ["https://*.reddit.com/*"]
-    },
-    {
-      "resources": ["sandbox.html"],
+      "resources": ["img/*", "sandbox.html"],
       "matches": ["https://*.reddit.com/*"]
     }
   ],

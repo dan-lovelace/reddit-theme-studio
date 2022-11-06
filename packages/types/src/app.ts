@@ -36,6 +36,7 @@ export type TSandboxContext<T> = {
   config: TConfig;
   data: T;
   logo: {
+    color: string;
     white: string;
   };
   subreddits: {

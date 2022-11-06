@@ -1,5 +1,5 @@
 import Handlebars from "handlebars";
-import { capitalize, truncate } from "lodash";
+import { capitalize, truncate, unescape } from "lodash";
 
 import { prettyDate } from "./lib/time";
 
@@ -17,6 +17,13 @@ Handlebars.registerHelper("ifnotend", (a, b, options) => {
 
 Handlebars.registerHelper("capitalize", (a) => {
   return capitalize(a);
+});
+
+Handlebars.registerHelper("inject", (a: string) => {
+  const withoutClass = a.replace(/class=".*"/g, "");
+  const unescaped = unescape(withoutClass);
+
+  return Handlebars.compile(unescaped)({});
 });
 
 Handlebars.registerHelper("prettyDate", (a) => {

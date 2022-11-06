@@ -37,10 +37,12 @@ export type TCommentsDataChild = {
 export type TCommentsDataChildData = {
   author?: string;
   body?: string;
+  body_html?: string;
   created_utc?: number;
   id?: string;
   permalink?: string;
   replies?: TCommentReplies | string;
+  ups?: number;
 };
 
 export type TCommentReplies = {
@@ -52,10 +54,12 @@ const CommentReply: z.ZodType<TCommentsDataChildData> = z.lazy(() =>
   z.object({
     author: z.string().optional(),
     body: z.string().optional(),
+    body_html: z.string().optional(),
     created_utc: z.number().optional(),
     id: z.string().optional(),
     permalink: z.string().optional(),
     replies: z.union([CommentReplies, z.string()]),
+    ups: z.number().optional(),
   })
 );
 
