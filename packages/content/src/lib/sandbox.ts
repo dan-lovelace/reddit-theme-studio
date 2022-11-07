@@ -173,8 +173,9 @@ export function handleSandboxLoad({
   initialize: () => void;
 }) {
   return async () => {
-    const count =
-      new URLSearchParams(window.location.search).get("count") ?? "0";
+    const count = parseInt(
+      new URLSearchParams(window.location.search).get("count") ?? "0"
+    );
     const { view } = config;
 
     switch (view) {
@@ -195,24 +196,27 @@ export function handleSandboxLoad({
       case "subreddit": {
         const limit = DEFAULT_PAGE_LIMIT.toString();
         const json = await getJson(config, {
-          count,
+          count: count.toString(),
           limit,
         });
         const subredditData = new Listing().parse(json);
         console.log("subredditData", subredditData);
 
-        // calculate next and prev urls
+        // calculate pagination
         // NOTE: this only works so long as the user is on a page number that
         // is less than the page limit. consider optimizing by tracking page
         // number separately such as in the query string.
-        const countInt = parseInt(count);
         const pageNumber =
-          countInt % DEFAULT_PAGE_LIMIT === 0
-            ? countInt / DEFAULT_PAGE_LIMIT
-            : Math.floor(countInt / DEFAULT_PAGE_LIMIT) - 1;
+          count % DEFAULT_PAGE_LIMIT === 0
+            ? count / DEFAULT_PAGE_LIMIT
+            : Math.floor(count / DEFAULT_PAGE_LIMIT) - 1;
+        subredditData.data.limit = DEFAULT_PAGE_LIMIT;
+        subredditData.data.page = pageNumber;
+
+        // configure next and prev urls
         const nextUrlParams = {
           after: subredditData.data.after ?? "",
-          count: (countInt + DEFAULT_PAGE_LIMIT).toString(),
+          count: (count + DEFAULT_PAGE_LIMIT).toString(),
           limit,
         };
         const prevUrlParams = {

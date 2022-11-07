@@ -3,6 +3,10 @@ import { capitalize, truncate, unescape } from "lodash";
 
 import { prettyDate } from "./lib/time";
 
+Handlebars.registerHelper("add", (a, b) => {
+  return a + b;
+});
+
 Handlebars.registerHelper("ifeq", (a, b, options) => {
   return a === b ? options.fn(this) : options.inverse(this);
 });
@@ -28,6 +32,10 @@ Handlebars.registerHelper("inject", (a: string) => {
 
 Handlebars.registerHelper("prettyDate", (a) => {
   return prettyDate(a);
+});
+
+Handlebars.registerHelper("times", (a, b) => {
+  return a * b;
 });
 
 Handlebars.registerHelper("truncate", (a) => {

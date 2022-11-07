@@ -42,9 +42,19 @@ export type TListingData = {
   children: TListingDataChild[];
 
   /**
+   * Pagination limit
+   */
+  limit?: number;
+
+  /**
    * URL to the next page
    */
   nextUrl?: string;
+
+  /**
+   * Current page number used for pagination
+   */
+  page?: number;
 
   /**
    * URL to the previous page
@@ -88,6 +98,15 @@ export type TListingDataChildData = {
    * Number of downvotes
    */
   downs: number;
+
+  /**
+   * Video media
+   */
+  media: {
+    reddit_video?: {
+      fallback_url: string;
+    };
+  } | null;
 
   /**
    * Number of comments
@@ -180,6 +199,16 @@ export class Listing implements IParsable<TListing> {
               author: z.string(),
               created_utc: z.number(),
               downs: z.number(),
+              media: z.union([
+                z.object({
+                  reddit_video: z
+                    .object({
+                      fallback_url: z.string(),
+                    })
+                    .optional(),
+                }),
+                z.null(),
+              ]),
               num_comments: z.number(),
               permalink: z.string(),
               preview: z
