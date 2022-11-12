@@ -2,6 +2,7 @@ import { browser, STORAGE_KEYS } from "@rju/core";
 import { TConfig, TCurrentTheme, TTheme } from "@rju/types";
 
 import hackerNews from "./hackerNews";
+import mako from "./mako";
 import rustic from "./rustic";
 
 const { CURRENT_THEME, CUSTOM_THEMES } = STORAGE_KEYS;
@@ -23,7 +24,7 @@ const helpTheme: TTheme = {
   },
 };
 
-export const premadeThemes = [hackerNews, rustic];
+export const premadeThemes = [hackerNews, mako, rustic];
 
 export function applyTheme(theme: TTheme) {
   const newTheme: TCurrentTheme = {

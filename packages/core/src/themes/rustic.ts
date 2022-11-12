@@ -42,86 +42,86 @@ const theme: TTheme = {
         },
       ],
       template: `
-  <div class="page-layout">
-    <header class="page-header">
-      <div class="page-header__logo">
-        <a href="/">
-          <img src={{logo.color}} />
-          Reddit
+<div class="page-layout">
+  <header class="page-header">
+    <div class="page-header__logo">
+      <a href="/">
+        <img src={{logo.color}} />
+        Reddit
+      </a>
+    </div>
+    {{#each subreddits}}
+      <div class="page-header__subreddit">
+        <a
+          class="page-header__subreddit__link"
+          href="//{{../config.hostname}}/{{this.to}}"
+        >
+          {{this.text}}
         </a>
+        {{#ifnotend @index ../subreddits.length}}
+          <span class="page-header__subreddit__separator">
+            |
+          </span>
+        {{/ifnotend}}
       </div>
-      {{#each subreddits}}
-        <div class="page-header__subreddit">
-          <a
-            class="page-header__subreddit__link"
-            href="//{{../config.hostname}}/{{this.to}}"
-          >
-            {{this.text}}
-          </a>
-          {{#ifnotend @index ../subreddits.length}}
-            <span class="page-header__subreddit__separator">
-              |
-            </span>
-          {{/ifnotend}}
-        </div>
-      {{/each}}
-    </header>
-    <div class="page-layout__body">
-      <div class="post-layout">
-        {{#with data.post.data.children.0.data}}
-          <div class="post-result__container">
-            <div class="post-result__points">
-              {{ups}}
+    {{/each}}
+  </header>
+  <div class="page-layout__body">
+    <div class="post-layout">
+      {{#with data.post.data.children.0.data}}
+        <div class="post-result__container">
+          <div class="post-result__points">
+            {{ups}}
+          </div>
+          <div>
+            <div class="post-layout__title">
+              <a href="{{permalink}}">
+                {{{title}}}
+              </a>
             </div>
-            <div>
-              <div class="post-layout__title">
-                <a href="{{permalink}}">
-                  {{{title}}}
+            <div class="post-result__meta">
+              submitted
+              {{prettyDate created_utc}}
+              by
+              <a href="/user/{{author}}">
+                {{author}}
+              </a>
+              <div>
+                <a href="{{this.data.permalink}}">
+                  {{num_comments}}
+                  comments
                 </a>
               </div>
-              <div class="post-result__meta">
-                submitted
-                {{prettyDate created_utc}}
-                by
-                <a href="/user/{{author}}">
-                  {{author}}
-                </a>
-                <div>
-                  <a href="{{this.data.permalink}}">
-                    {{num_comments}}
-                    comments
+            </div>
+            <div class="comments-post__preview">
+              {{#if media.reddit_video.fallback_url}}
+                <video
+                  autoplay
+                  controls
+                  muted
+                  src="{{media.reddit_video.fallback_url}}"
+                ></video>
+              {{else}}
+                {{#if preview.images.0.source.url}}
+                  <a href="{{url}}">
+                    <img src="{{{preview.images.0.source.url}}}" />
                   </a>
-                </div>
-              </div>
-              <div class="comments-post__preview">
-                {{#if media.reddit_video.fallback_url}}
-                  <video
-                    autoplay
-                    controls
-                    muted
-                    src="{{media.reddit_video.fallback_url}}"
-                  ></video>
-                {{else}}
-                  {{#if preview.images.0.source.url}}
-                    <a href="{{url}}">
-                      <img src="{{{preview.images.0.source.url}}}" />
-                    </a>
-                  {{/if}}
                 {{/if}}
-              </div>
+              {{/if}}
             </div>
           </div>
-        {{/with}}
-      </div>
-      <div class="comments-layout">
-        {{#with data.comments.data}}
-          <div class="comments-layout__container">
-            {{> comments}}
-          </div>
-        {{/with}}
-      </div>
+        </div>
+      {{/with}}
+    </div>
+    <div class="comments-layout">
+      {{#with data.comments.data}}
+        <div class="comments-layout__container">
+          {{> comments}}
+        </div>
+      {{/with}}
     </div>
   </div>
+</div>
       `,
     },
     style: `
