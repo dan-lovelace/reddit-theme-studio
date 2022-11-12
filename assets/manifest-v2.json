@@ -1,12 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/chrome-manifest",
   "name": "Reddit JSON UI",
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "temporary@addon.com",
-      "strict_min_version": "100.0"
-    }
-  },
   "version": "0.0.0",
   "description": "A customizable UI for Reddit's JSON pages",
   "homepage_url": "https://github.com/dan-lovelace/reddit-json-ui",
