@@ -1,9 +1,7 @@
 import { getCurrentTheme } from "@rju/core";
 import ReactDOM from "react-dom/client";
-import { Provider } from "react-redux";
 
 import App from "./App";
-import { store } from "./app/store";
 import { getConfig } from "./lib/config";
 import "./main.scss";
 
@@ -31,11 +29,7 @@ async function main() {
   root.id = "rju-root";
   documentElement.appendChild(root);
 
-  ReactDOM.createRoot(root).render(
-    <Provider store={store}>
-      <App config={config} />
-    </Provider>
-  );
+  ReactDOM.createRoot(root).render(<App config={config} />);
 }
 
 main();
