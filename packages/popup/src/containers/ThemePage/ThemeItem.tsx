@@ -76,6 +76,7 @@ export default function ThemeItem({
   const handleThemeClick = () => {
     const newTheme: TCurrentTheme = {
       id: themeData.id,
+      label: themeData.label,
       type: themeData.type,
     };
 

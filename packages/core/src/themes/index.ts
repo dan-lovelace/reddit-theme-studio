@@ -1,5 +1,5 @@
 import { browser, STORAGE_KEYS } from "@rju/core";
-import { TConfig, TTheme } from "@rju/types";
+import { TConfig, TCurrentTheme, TTheme } from "@rju/types";
 
 import hackerNews from "./hackerNews";
 import rustic from "./rustic";
@@ -26,11 +26,14 @@ const helpTheme: TTheme = {
 export const premadeThemes = [hackerNews, rustic];
 
 export function applyTheme(theme: TTheme) {
+  const newTheme: TCurrentTheme = {
+    id: theme.id,
+    label: theme.label,
+    type: theme.type,
+  };
+
   browser.storage.local.set({
-    [CURRENT_THEME]: {
-      id: theme.id,
-      type: theme.type,
-    },
+    [CURRENT_THEME]: newTheme,
   });
 }
 

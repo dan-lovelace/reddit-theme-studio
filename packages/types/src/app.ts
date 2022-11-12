@@ -20,6 +20,7 @@ export type TConfig = {
 
 export type TCurrentTheme = {
   id: string;
+  label: string;
   type: TThemeType;
 };
 
@@ -69,20 +70,17 @@ export type TStorageItem = {
   view: TView;
 };
 
-export type TTheme = {
-  id: string;
+export type TTheme = TCurrentTheme & {
   inputs: {
     comments: TViewInputValue;
     style: string;
     subreddit: TViewInputValue;
   };
-  label: string;
   outputs?: {
     comments: TViewInputValue;
     style: string;
     subreddit: TViewInputValue;
   };
-  type: TThemeType;
 };
 
 export type TThemeChanged = {
