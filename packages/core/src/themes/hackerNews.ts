@@ -165,7 +165,7 @@ const theme: TTheme = {
 .page-header__logo img {
   width: 18px;
   height: 18px;
-  padding-right: 4px;
+  margin-right: 4px;
 }
 
 .page-header__subreddit {
