@@ -3,10 +3,9 @@
 A browser extension that stylizes Reddit pages by fetching their associated JSON
 (if available) and wrapping the page in a fully-customized style you provide.
 
-⚠️ This is still very much a work in progress. It is not yet available on any
-extension store but may be installed locally by following the "Local
-Development" section below. The API may change at any time so it's a good idea
-to keep backups of your templates and styles.
+Available for
+[Chrome](https://chrome.google.com/webstore/detail/reddit-json-ui/fkjkklmekbggnhjjldbcpbdcijcmbmoi)
+and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/reddit-json-ui/).
 
 ## What?
 
