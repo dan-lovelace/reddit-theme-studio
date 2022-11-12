@@ -12,11 +12,28 @@ async function main() {
   if (!config.view) return;
 
   const { documentElement } = document;
-
   const currentTheme = await getCurrentTheme(config);
   if (currentTheme) {
     // add configuration mode to html element class list
     documentElement.classList.add(config.mode);
+
+    // remove reddit styles to reduce clashing
+    switch (config.mode) {
+      case "redesign": {
+        // redesign styles exist in head
+        const styles = document.head.querySelectorAll("style");
+        for (const styleEl of styles) {
+          styleEl.remove();
+        }
+        break;
+      }
+
+      case "legacy": {
+        // legacy styles are loaded through css files
+        // TODO: intercept css web requests and block
+        break;
+      }
+    }
   }
 
   // create style element
