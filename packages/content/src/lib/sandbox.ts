@@ -216,7 +216,7 @@ export function handleSandboxLoad({
         // configure next and prev urls
         const nextUrlParams = {
           after: subredditData.data.after ?? "",
-          count: (count + DEFAULT_PAGE_LIMIT).toString(),
+          count: ((pageNumber + 1) * DEFAULT_PAGE_LIMIT).toString(),
           limit,
         };
         const prevUrlParams = {
