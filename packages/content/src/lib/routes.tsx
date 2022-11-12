@@ -33,7 +33,7 @@ export const getJson: (
   const {
     location: { pathname, search },
   } = window;
-  const searchEntries = new URLSearchParams(search).entries();
+  const searchEntries = new URLSearchParams(search);
   const searchObj = Object.fromEntries(searchEntries);
   const url = `https://${config.hostname}${pathname}.json${
     params
