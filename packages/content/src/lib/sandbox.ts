@@ -1,22 +1,24 @@
 import { browser, getCurrentTheme, MESSAGE_ACTIONS } from "@rju/core";
-import { Comments, Listing, TConfig, TSandboxContext } from "@rju/types";
+import {
+  Comments,
+  Listing,
+  TConfig,
+  thumbnailTypes,
+  TListingThumbnail,
+  TSandboxContext,
+} from "@rju/types";
 
 import { sendSandboxMessage, startListeners } from "./message";
 import { DEFAULT_PAGE_LIMIT, getJson } from "./routes";
 
 const colorLogo = browser.runtime.getURL("img/reddit_logo_color_128.png");
 const whiteLogo = browser.runtime.getURL("img/reddit_logo_white_128.png");
-const thumbnails: { [key: string]: string } = [
-  "default",
-  "nsfw",
-  "self",
-  "spoiler",
-].reduce(
+const thumbnails = thumbnailTypes.reduce(
   (acc, val) => ({
     ...acc,
     [val]: browser.runtime.getURL(`img/thumb_${val}.png`),
   }),
-  {}
+  {} as Record<TListingThumbnail, string>
 );
 
 const SUBREDDITS = [
@@ -138,11 +140,12 @@ const SUBREDDITS = [
   },
 ];
 
-function getThumbnailSrc(thumbnail: string) {
+function getThumbnailSrc(thumbnail: TListingThumbnail | string) {
   switch (thumbnail) {
     case "default":
-    case "self":
+    case "image":
     case "nsfw":
+    case "self":
     case "spoiler":
       return thumbnails[thumbnail];
     default:

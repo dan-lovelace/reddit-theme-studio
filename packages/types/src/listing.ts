@@ -20,6 +20,13 @@ export const listingTypeValues: { [key in TListingType]: string } = {
   t5: "subreddit",
   t6: "award",
 };
+export const thumbnailTypes = [
+  "default",
+  "image",
+  "nsfw",
+  "self",
+  "spoiler",
+] as const;
 
 export type TListing = {
   data: TListingData;
@@ -182,6 +189,8 @@ export type TListingDataChildData = {
    */
   url: string;
 };
+
+export type TListingThumbnail = typeof thumbnailTypes[number];
 
 export type TListingType = typeof listingTypes[number];
 
