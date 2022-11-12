@@ -12,7 +12,11 @@
   "homepage_url": "https://github.com/dan-lovelace/reddit-json-ui",
   "manifest_version": 2,
   "icons": {
-    "128": "img/logo_128.png"
+    "16": "img/logo_16.png",
+    "48": "img/logo_48.png",
+    "128": "img/logo_128.png",
+    "256": "img/logo_256.png",
+    "512": "img/logo_512.png"
   },
   "browser_action": {
     "default_popup": "popup.html"
