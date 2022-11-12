@@ -84,8 +84,8 @@ from scratch. To do that, inspect the background script in the browser's
 extension UI and run the following command in the console:
 
 ```js
-chrome.storage.sync.get((result) => {
-  Object.keys(result).forEach((key) => chrome.storage.sync.remove(key));
+chrome.storage.local.get((result) => {
+  Object.keys(result).forEach((key) => chrome.storage.local.remove(key));
 });
 ```
 
