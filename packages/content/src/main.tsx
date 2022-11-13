@@ -14,13 +14,17 @@ async function main() {
   const { documentElement } = document;
   const currentTheme = await getCurrentTheme(config);
   if (currentTheme) {
-    // add configuration mode to html element class list
+    // add configuration mode to html element class list to support styling
+    // legacy and redesign separately
     documentElement.classList.add(config.mode);
 
-    // remove reddit styles to reduce clashing
+    // remove reddit styles to reduce clashing with theme styles
     switch (config.mode) {
       case "redesign": {
-        // redesign styles exist in head
+        // redesign styles exist in head, just remove them. attempting to block
+        // stylsheet resources, as seen in the legacy handler, creates an
+        // infinite loop with reddit's javascript and will eventually crash the
+        // browser.
         const styles = document.head.querySelectorAll("style");
         for (const styleEl of styles) {
           styleEl.remove();
@@ -29,8 +33,10 @@ async function main() {
       }
 
       case "legacy": {
-        // legacy styles are loaded through css files
-        // TODO: intercept css web requests and block
+        // legacy styles are loaded through stylesheet files and are blocked at
+        // the network level using the declarativeNetRequest permission and
+        // ruleset in manifest v3 (see: content/public/request_rules.json) and
+        // web request blocking in v2 (see: background/src/index.ts).
         break;
       }
     }

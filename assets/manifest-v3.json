@@ -26,7 +26,7 @@
       "run_at": "document_start"
     }
   ],
-  "permissions": ["declarativeContent", "storage"],
+  "permissions": ["declarativeContent", "storage", "declarativeNetRequest"],
   "web_accessible_resources": [
     {
       "resources": ["img/*", "sandbox.html"],
@@ -35,5 +35,14 @@
   ],
   "sandbox": {
     "pages": ["sandbox.html"]
+  },
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "block_stylesheets",
+        "enabled": true,
+        "path": "request_rules.json"
+      }
+    ]
   }
 }

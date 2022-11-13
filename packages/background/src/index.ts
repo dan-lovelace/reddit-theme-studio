@@ -27,6 +27,27 @@ function main() {
 
     browser.tabs.sendMessage(tabId, message);
   });
+
+  const { manifest_version } = browser.runtime.getManifest();
+  if (manifest_version === 2) {
+    browser.webRequest.onBeforeRequest.addListener(
+      (details) => {
+        // hostname checking here because of host permissions. the manifest
+        // needs both legacy and redesign domains but we only want to block
+        // stylesheets for legacy to avoid an infinite loop in redesign.
+        const { hostname } = new URL(String(details.originUrl));
+        const cancel = hostname === "old.reddit.com";
+
+        return { cancel };
+      },
+      {
+        // urls must include initiator origin (reddit.com)
+        urls: ["https://*.reddit.com/*", "https://www.redditstatic.com/*"],
+        types: ["stylesheet"],
+      },
+      ["blocking"]
+    );
+  }
 }
 
 main();
