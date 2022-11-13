@@ -1,4 +1,4 @@
-import type { TConfig, TMode } from "@rju/types";
+import type { TConfig, TMode } from "@rts/types";
 import { matchRoutes } from "react-router-dom";
 
 import { ROUTES } from "./routes";

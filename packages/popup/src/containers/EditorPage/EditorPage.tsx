@@ -1,8 +1,8 @@
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 
 import { Box, Stack, Tab, Tabs, TextField, useTheme } from "@mui/material";
-import { browser, STORAGE_KEYS } from "@rju/core";
-import { TCurrentTheme, TTheme } from "@rju/types";
+import { browser, STORAGE_KEYS } from "@rts/core";
+import { TCurrentTheme, TTheme } from "@rts/types";
 import { kebabCase } from "lodash";
 
 import { StyleInput, TemplateInput } from "../../components/TemplateInput";

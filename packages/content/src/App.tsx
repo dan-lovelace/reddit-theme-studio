@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import { browser } from "@rju/core";
-import { TConfig } from "@rju/types";
+import { browser } from "@rts/core";
+import { TConfig } from "@rts/types";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { ROUTES } from "./lib/routes";
@@ -17,9 +17,9 @@ export default function App({ config }: { config: TConfig }) {
   return (
     <>
       {initialized && <RouterProvider router={router} />}
-      <div id="rju-content"></div>
+      <div id="rts-content"></div>
       <iframe
-        id="rju-sandbox"
+        id="rts-sandbox"
         src={sandboxUrl}
         onLoad={handleSandboxLoad({
           config,

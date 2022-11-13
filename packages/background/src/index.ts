@@ -1,4 +1,4 @@
-import { browser } from "@rju/core";
+import { browser } from "@rts/core";
 
 function main() {
   browser.runtime.onInstalled.addListener(() => {

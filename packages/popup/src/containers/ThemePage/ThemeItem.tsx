@@ -10,8 +10,8 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { applyTheme, browser, STORAGE_KEYS } from "@rju/core";
-import { TCurrentTheme, TTheme } from "@rju/types";
+import { applyTheme, browser, STORAGE_KEYS } from "@rts/core";
+import { TCurrentTheme, TTheme } from "@rts/types";
 import { useNavigate } from "react-router-dom";
 
 import { useToastContext } from "../../contexts/toast";

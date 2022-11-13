@@ -8,8 +8,8 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-import { browser, STORAGE_KEYS } from "@rju/core";
-import { TView } from "@rju/types";
+import { browser, STORAGE_KEYS } from "@rts/core";
+import { TView } from "@rts/types";
 
 import Comments from "./Comments";
 import Subreddit from "./Subreddit";

@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
 import { Box, Button } from "@mui/material";
-import { browser, STORAGE_KEYS } from "@rju/core";
-import { TTheme } from "@rju/types";
+import { browser, STORAGE_KEYS } from "@rts/core";
+import { TTheme } from "@rts/types";
 
 import { getSaveShortcut, saveListener } from ".";
 import { useToastContext } from "../../contexts/toast";

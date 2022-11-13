@@ -1,4 +1,4 @@
-import { browser, getCurrentTheme, MESSAGE_ACTIONS } from "@rju/core";
+import { browser, getCurrentTheme, MESSAGE_ACTIONS } from "@rts/core";
 import {
   Comments,
   Listing,
@@ -6,7 +6,7 @@ import {
   thumbnailTypes,
   TListingThumbnail,
   TSandboxContext,
-} from "@rju/types";
+} from "@rts/types";
 
 import { sendSandboxMessage, startListeners } from "./message";
 import { DEFAULT_PAGE_LIMIT, getJson } from "./routes";

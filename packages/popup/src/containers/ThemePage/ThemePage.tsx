@@ -12,8 +12,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { browser, premadeThemes, STORAGE_KEYS } from "@rju/core";
-import { TCurrentTheme, TTheme } from "@rju/types";
+import { browser, premadeThemes, STORAGE_KEYS } from "@rts/core";
+import { TCurrentTheme, TTheme } from "@rts/types";
 import { kebabCase } from "lodash";
 
 import { useToastContext } from "../../contexts/toast";

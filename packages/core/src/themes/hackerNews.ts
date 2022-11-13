@@ -1,4 +1,4 @@
-import { TTheme } from "@rju/types";
+import { TTheme } from "@rts/types";
 
 const theme: TTheme = {
   id: "hacker-news",
@@ -113,7 +113,7 @@ const theme: TTheme = {
     },
     style: `
 @media (min-width: 768px) {
-  #rju-root {
+  #rts-root {
     padding: 8px;
   }
 }

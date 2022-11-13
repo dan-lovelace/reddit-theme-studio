@@ -3,13 +3,13 @@ import {
   getCurrentTheme,
   MESSAGE_ACTIONS,
   STORAGE_KEYS,
-} from "@rju/core";
+} from "@rts/core";
 import {
   TConfig,
   TMessageEvent,
   TSandboxMessage,
   TThemeChanged,
-} from "@rju/types";
+} from "@rts/types";
 
 import { getConfig } from "./config";
 import { getTemplateContext } from "./sandbox";
@@ -21,9 +21,9 @@ export function handleMessageEvent(event: TMessageEvent<TThemeChanged>) {
     case MESSAGE_ACTIONS.UPDATE_THEME: {
       const config = getConfig();
 
-      const styleEl = document.getElementById("rju-style") as HTMLStyleElement;
+      const styleEl = document.getElementById("rts-style") as HTMLStyleElement;
       const contentEl = document.getElementById(
-        "rju-content"
+        "rts-content"
       ) as HTMLDivElement;
 
       if (value === null) {
@@ -44,7 +44,7 @@ export function handleMessageEvent(event: TMessageEvent<TThemeChanged>) {
 }
 
 export function sendSandboxMessage<T>(message: TSandboxMessage<T>) {
-  const sandbox = document.getElementById("rju-sandbox") as HTMLIFrameElement;
+  const sandbox = document.getElementById("rts-sandbox") as HTMLIFrameElement;
   const { contentWindow } = sandbox;
 
   contentWindow?.postMessage(message, "*");

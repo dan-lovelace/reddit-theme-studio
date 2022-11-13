@@ -17,8 +17,8 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "paths": {
-      "@rju/core": ["packages/core"],
-      "@rju/types": ["packages/types"]
+      "@rts/core": ["packages/core"],
+      "@rts/types": ["packages/types"]
     }
   }
 }

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
-import { browser, STORAGE_KEYS } from "@rju/core";
-import { TTheme } from "@rju/types";
+import { browser, STORAGE_KEYS } from "@rts/core";
+import { TTheme } from "@rts/types";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 
 import PageLayout from "./containers/PageLayout/PageLayout";

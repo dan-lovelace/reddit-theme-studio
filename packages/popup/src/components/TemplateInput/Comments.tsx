@@ -1,4 +1,4 @@
-import { TViewInputValue } from "@rju/types";
+import { TViewInputValue } from "@rts/types";
 
 import ViewInput from "./ViewInput";
 

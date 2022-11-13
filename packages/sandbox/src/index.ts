@@ -1,7 +1,7 @@
 // WARNING: import MESSAGE_ACTIONS using absolute path because
 // webextension-polyfill will throw an error otherwise
-import { MESSAGE_ACTIONS } from "@rju/core/src/message";
-import { TSandboxMessage } from "@rju/types";
+import { MESSAGE_ACTIONS } from "@rts/core/src/message";
+import { TSandboxMessage } from "@rts/types";
 import Handlebars from "handlebars";
 
 import "./helpers";

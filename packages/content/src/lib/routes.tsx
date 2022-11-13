@@ -1,4 +1,4 @@
-import { TConfig, TView } from "@rju/types";
+import { TConfig, TView } from "@rts/types";
 import { RouteObject } from "react-router-dom";
 
 type Route = RouteObject & {

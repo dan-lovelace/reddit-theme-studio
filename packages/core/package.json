@@ -1,5 +1,5 @@
 {
-  "name": "@rju/core",
+  "name": "@rts/core",
   "version": "1.0.0",
   "type": "module",
   "description": "Core library for Reddit Theme Studio",
@@ -15,7 +15,7 @@
     "webextension-polyfill": "^0.10.0"
   },
   "devDependencies": {
-    "@rju/types": "*",
+    "@rts/types": "*",
     "@types/webextension-polyfill": "^0.9.1"
   }
 }

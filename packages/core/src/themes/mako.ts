@@ -1,4 +1,4 @@
-import { TTheme } from "@rju/types";
+import { TTheme } from "@rts/types";
 
 const theme: TTheme = {
   id: "mako",
@@ -116,7 +116,7 @@ const theme: TTheme = {
   https://coolors.co/palette/8ecae6-219ebc-023047-ffb703-fb8500
 */
 
-html, #rju-root, #rju-content, .page-wrapper {
+html, #rts-root, #rts-content, .page-wrapper {
   height: 100%;
   overflow: hidden;
 }

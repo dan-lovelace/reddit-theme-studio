@@ -1,5 +1,5 @@
-import { browser, STORAGE_KEYS } from "@rju/core";
-import { TConfig, TCurrentTheme, TTheme } from "@rju/types";
+import { browser, STORAGE_KEYS } from "@rts/core";
+import { TConfig, TCurrentTheme, TTheme } from "@rts/types";
 
 import hackerNews from "./hackerNews";
 import mako from "./mako";

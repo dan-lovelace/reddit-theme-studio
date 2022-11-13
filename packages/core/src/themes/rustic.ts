@@ -1,4 +1,4 @@
-import { TTheme } from "@rju/types";
+import { TTheme } from "@rts/types";
 
 const theme: TTheme = {
   id: "rustic",
