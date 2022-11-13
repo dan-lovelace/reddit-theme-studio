@@ -1,4 +1,4 @@
-# Reddit JSON UI
+# Reddit Theme Studio
 
 A browser extension for developers to create their own custom Reddit interfaces
 using HTML and CSS. The built-in code editor makes theme creation a breeze. Also
@@ -23,25 +23,25 @@ current page's JSON and injecting the results into
 # Creating your first theme
 
 A guide to creating themes from scratch can be found on the Wiki page
-[Your First Theme](https://github.com/dan-lovelace/reddit-json-ui/wiki/Your-First-Theme).
+[Your First Theme](https://github.com/dan-lovelace/reddit-theme-studio/wiki/Your-First-Theme).
 Additionally, you may inspect any of the premade themes for inspiration by
 navigating to [packages/core/src/themes](./packages/core/src/themes).
 
 # Template API
 
 API documentation can be found on the Wiki page
-[Template API](https://github.com/dan-lovelace/reddit-json-ui/wiki/Template-API).
+[Template API](https://github.com/dan-lovelace/reddit-theme-studio/wiki/Template-API).
 Feedback for the docs is welcome along with feature requests. Please
-[open a new issue](https://github.com/dan-lovelace/reddit-json-ui/issues/new) to
-start a discussion or follow the [Contributing](#contributing) guidelines to get
-involved directly.
+[open a new issue](https://github.com/dan-lovelace/reddit-theme-studio/issues/new)
+to start a discussion or follow the [Contributing](#contributing) guidelines to
+get involved directly.
 
 # Contributing
 
-Reddit JSON UI is open source and looking for contributors! If you'd like to
-make changes, first check
-[open issues](https://github.com/dan-lovelace/reddit-json-ui/issues) to see if
-anyone else is working in a similar area. To make a change:
+Reddit Theme Studio is open source and looking for contributors! If you'd like
+to make changes, first check
+[open issues](https://github.com/dan-lovelace/reddit-theme-studio/issues) to see
+if anyone else is working in a similar area. To make a change:
 
 1. Follow the [Local Development](#local-development) section below to get up
    and running locally
@@ -49,7 +49,7 @@ anyone else is working in a similar area. To make a change:
    made (i.e. `feature/gif-previews`)
 1. Make code changes locally, testing as you go
 1. Once you're happy with the updates:
-   [create a new PR](https://github.com/dan-lovelace/reddit-json-ui/compare),
+   [create a new PR](https://github.com/dan-lovelace/reddit-theme-studio/compare),
    fill out the template and assign another contributor
 
 # Local Development
@@ -62,8 +62,8 @@ anyone else is working in a similar area. To make a change:
 ## 1. Install
 
 ```shell
-$ git clone https://github.com/dan-lovelace/reddit-json-ui.git
-$ cd reddit-json-ui
+$ git clone https://github.com/dan-lovelace/reddit-theme-studio.git
+$ cd reddit-theme-studio
 $ yarn
 ```
 

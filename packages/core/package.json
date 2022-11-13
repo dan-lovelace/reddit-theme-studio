@@ -2,7 +2,7 @@
   "name": "@rju/core",
   "version": "1.0.0",
   "type": "module",
-  "description": "Core library for Reddit JSON UI",
+  "description": "Core library for Reddit Theme Studio",
   "main": "src/index.ts",
   "keywords": [],
   "author": "dan-lovelace",

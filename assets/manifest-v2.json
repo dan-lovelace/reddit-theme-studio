@@ -1,9 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/chrome-manifest",
-  "name": "Reddit JSON UI",
+  "name": "Reddit Theme Studio",
   "version": "0.0.0",
   "description": "A customizable UI for Reddit's JSON pages",
-  "homepage_url": "https://github.com/dan-lovelace/reddit-json-ui",
+  "homepage_url": "https://github.com/dan-lovelace/reddit-theme-studio",
   "manifest_version": 2,
   "icons": {
     "16": "img/logo_16.png",

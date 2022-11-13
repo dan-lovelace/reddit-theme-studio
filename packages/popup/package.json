@@ -2,7 +2,7 @@
   "name": "popup",
   "version": "0.0.0",
   "type": "module",
-  "description": "Browser popup for Reddit JSON UI",
+  "description": "Browser popup for Reddit Theme Studio",
   "keywords": [],
   "author": "dan-lovelace",
   "license": "MIT",
