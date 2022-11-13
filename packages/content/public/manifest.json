@@ -1,7 +1,7 @@
 {
   "name": "Reddit Theme Studio",
   "version": "0.0.0",
-  "description": "A customizable UI for Reddit's JSON pages",
+  "description": "A browser extension for creating custom Reddit themes using HTML and CSS",
   "homepage_url": "https://github.com/dan-lovelace/reddit-theme-studio",
   "manifest_version": 3,
   "icons": {

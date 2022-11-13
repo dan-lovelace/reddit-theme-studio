@@ -1,6 +1,6 @@
 {
   "name": "reddit-theme-studio",
-  "description": "Browser extension for hackable Reddit theming",
+  "description": "A browser extension for creating custom Reddit themes using HTML and CSS",
   "private": true,
   "version": "0.0.1",
   "type": "module",
