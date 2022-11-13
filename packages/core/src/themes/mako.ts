@@ -118,10 +118,12 @@ const theme: TTheme = {
 
 html, #rju-root, #rju-content, .page-wrapper {
   height: 100%;
+  overflow: hidden;
 }
 
 a {
   color: #219EBC !important;
+  text-decoration: none;
 }
 
 button {
@@ -134,6 +136,7 @@ button {
   text-transform: uppercase;
   transition: background-color 150ms;
   box-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12);
+  cursor: pointer;
 }
 
 button:hover {
@@ -149,8 +152,7 @@ button:hover {
 }
 
 .page-wrapper__sidebar {
-  display: flex;
-  flex-direction: column;
+  grid-row: 1 / 3;
   border-right: 1px solid #F0F0F0;
   padding: 1rem;
   overflow-y: auto;
@@ -183,7 +185,7 @@ button:hover {
 }
 
 .page-wrapper__footer {
-  grid-column: 1 / -1;
+  grid-column: 2 / -1;
   padding: 1rem;
   border-top: 1px solid #F0F0F0;
   text-align: right;

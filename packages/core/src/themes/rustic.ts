@@ -146,6 +146,7 @@ button {
 
 .page-layout a {
   color: black;
+  text-decoration: none;
 }
 
 .page-header {
@@ -180,7 +181,7 @@ button {
 
 .post-list__list {
   list-style: auto;
-  margin-left: 2rem;
+  margin-top: 1rem;
 }
 
 .post-result__title a {
@@ -311,7 +312,10 @@ button {
   </header>
   <div class="page-layout__body">
     <div class="post-list">
-      <ol class="post-list__list" start="{{add (times data.data.limit data.data.page) 1}}">
+      <ol 
+        class="post-list__list"
+        start="{{add (times data.data.limit data.data.page) 1}}"
+      >
         {{#each data.data.children}}
           <li class="post-result">
             <div class="post-result__container">

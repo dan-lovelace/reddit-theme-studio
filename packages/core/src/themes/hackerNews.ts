@@ -135,6 +135,7 @@ const theme: TTheme = {
 
 .page-layout a {
   color: #828282;
+  text-decoration: none;
 }
 
 .page-layout__body {
@@ -182,13 +183,26 @@ const theme: TTheme = {
   margin-right: 3px;
 }
 
+.page-footer {
+  padding: 0 0 10px 30px;
+}
+
 .post-layout {
   margin-bottom: 30px;
 }
 
+.post-layout__title {
+  margin-bottom: 2px;
+}
+
+.post-layout__title a {
+  color: #000000;
+}
+
 .post-list__list {
   list-style: auto;
-  margin-left: 25px;
+  padding-inline-start: 25px;
+  margin-top: 0;
 }
 
 .post-result {
@@ -217,6 +231,10 @@ const theme: TTheme = {
 
 .post-result__url {
   font-size: 8pt;
+}
+
+.post-result__url a {
+  color: #828282;
 }
 
 .comments-partial {
@@ -285,7 +303,10 @@ const theme: TTheme = {
   </header>
   <div class="page-layout__body">
     <div class="post-list">
-      <ol class="post-list__list">
+      <ol
+        class="post-list__list"
+        start="{{add (times data.data.limit data.data.page) 1}}"
+      >
         {{#each data.data.children}}
           <li class="post-result">
             <span class="post-result__title">
@@ -316,6 +337,13 @@ const theme: TTheme = {
       </ol>
     </div>
   </div>
+  <footer class="page-footer">
+    {{#if data.data.after}}
+      <a href="{{data.data.nextUrl}}">
+        More
+      </a>
+    {{/if}}
+  </footer>
 </div>
       `,
     },
