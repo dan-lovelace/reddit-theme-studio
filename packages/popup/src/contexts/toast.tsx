@@ -19,8 +19,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     setMessage(null);
   };
 
-  const notify = (msg: string) => {
-    setMessage(msg);
+  const notify = (newMessage: string) => {
+    setMessage(newMessage);
   };
 
   return (
@@ -30,6 +30,9 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         autoHideDuration={6000}
         onClose={handleClose}
         message={message}
+        ClickAwayListenerProps={{
+          mouseEvent: "onMouseDown",
+        }}
       >
         <Alert severity="error" onClose={handleClose}>
           {message}
