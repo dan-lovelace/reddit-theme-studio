@@ -13,26 +13,34 @@ import {
   Typography,
 } from "@mui/material";
 import { browser, premadeThemes, STORAGE_KEYS } from "@rju/core";
-import { TTheme } from "@rju/types";
+import { TCurrentTheme, TTheme } from "@rju/types";
 import { kebabCase } from "lodash";
 
 import { useToastContext } from "../../contexts/toast";
 import ThemeItem from "./ThemeItem";
 
-const { CUSTOM_THEMES } = STORAGE_KEYS;
+const { CURRENT_THEME, CUSTOM_THEMES } = STORAGE_KEYS;
 
 export default function ThemePage() {
   const [creating, setCreating] = useState<boolean>(false);
+  const [currentTheme, setCurrentTheme] = useState<TCurrentTheme>();
   const [initialized, setInitialized] = useState<boolean>(false);
-  const [savedThemes, setSavedThemes] = useState<TTheme[]>([]);
+  const [customThemes, setCustomThemes] = useState<TTheme[]>([]);
   const [creatingName, setCreatingName] = useState<string>("");
   const { notify } = useToastContext();
 
   useEffect(() => {
     async function init() {
-      const themes = await browser.storage.local.get(CUSTOM_THEMES);
-      if (Object.prototype.hasOwnProperty.call(themes, CUSTOM_THEMES)) {
-        setSavedThemes(themes[CUSTOM_THEMES]);
+      const storedCustomThemes = await browser.storage.local.get(CUSTOM_THEMES);
+      const customThemes: TTheme[] = storedCustomThemes[CUSTOM_THEMES];
+      if (customThemes) {
+        setCustomThemes(customThemes);
+      }
+
+      const storedCurrentTheme = await browser.storage.local.get(CURRENT_THEME);
+      const currentTheme: TCurrentTheme = storedCurrentTheme[CURRENT_THEME];
+      if (currentTheme) {
+        setCurrentTheme(currentTheme);
       }
 
       setInitialized(true);
@@ -94,7 +102,7 @@ export default function ThemePage() {
       [CUSTOM_THEMES]: newThemes,
     });
 
-    setSavedThemes(newThemes);
+    setCustomThemes(newThemes);
     handleEndCreate();
   };
 
@@ -120,14 +128,16 @@ export default function ThemePage() {
           <Typography variant="h6">Themes</Typography>
           <Typography variant="caption">Custom</Typography>
           <List>
-            {savedThemes.length > 0 ? (
-              savedThemes.map((theme) => (
+            {customThemes.length > 0 ? (
+              customThemes.map((theme) => (
                 <ThemeItem
                   key={theme.id}
                   editable
-                  savedThemes={savedThemes}
+                  customThemes={customThemes}
+                  selected={currentTheme?.id === theme.id}
                   themeData={theme}
-                  setSavedThemes={setSavedThemes}
+                  setCurrentTheme={setCurrentTheme}
+                  setCustomThemes={setCustomThemes}
                 />
               ))
             ) : (
@@ -180,7 +190,12 @@ export default function ThemePage() {
           <Typography variant="caption">Premade</Typography>
           <List>
             {premadeThemes.map((theme) => (
-              <ThemeItem key={theme.id} themeData={theme} />
+              <ThemeItem
+                key={theme.id}
+                selected={currentTheme?.id === theme.id}
+                themeData={theme}
+                setCurrentTheme={setCurrentTheme}
+              />
             ))}
           </List>
         </Stack>

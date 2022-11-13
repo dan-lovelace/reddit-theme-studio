@@ -18,18 +18,22 @@ import { useToastContext } from "../../contexts/toast";
 import { ROUTES } from "../../lib/routes";
 
 type ThemeItemProps = {
+  customThemes?: TTheme[];
   editable?: boolean;
-  savedThemes?: TTheme[];
+  selected: boolean;
   themeData: TTheme;
-  setSavedThemes?: (newValue: TTheme[]) => void;
+  setCurrentTheme: (newValue: TCurrentTheme) => void;
+  setCustomThemes?: (newValue: TTheme[]) => void;
 };
 
 const { CURRENT_THEME, CUSTOM_THEMES: SAVED_THEMES } = STORAGE_KEYS;
 
 export default function ThemeItem({
   editable = false,
+  selected,
   themeData,
-  setSavedThemes,
+  setCurrentTheme,
+  setCustomThemes,
 }: ThemeItemProps) {
   const [confirmingDelete, setConfirmingDelete] = useState<boolean>(false);
   const { notify } = useToastContext();
@@ -60,7 +64,7 @@ export default function ThemeItem({
       [CURRENT_THEME]: currentTheme?.id === themeData.id ? null : currentTheme,
     });
 
-    setSavedThemes?.(newThemes);
+    setCustomThemes?.(newThemes);
     handleCancelConfirmDelete();
   };
 
@@ -74,22 +78,16 @@ export default function ThemeItem({
   };
 
   const handleThemeClick = () => {
-    const newTheme: TCurrentTheme = {
-      id: themeData.id,
-      label: themeData.label,
-      type: themeData.type,
-    };
-
-    browser.storage.local.set({
-      [CURRENT_THEME]: newTheme,
-    });
+    applyTheme(themeData);
+    setCurrentTheme(themeData);
   };
 
   return (
     <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
       <MenuItem
-        sx={{ flex: "1 1 auto", overflow: "hidden" }}
+        selected={selected}
         onClick={handleThemeClick}
+        sx={{ flex: "1 1 auto", overflow: "hidden" }}
       >
         <Typography
           variant="body1"
