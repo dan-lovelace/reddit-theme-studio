@@ -1,42 +1,63 @@
 # Reddit JSON UI
 
-A browser extension that stylizes Reddit pages by fetching their associated JSON
-(if available) and wrapping the page in a fully-customized style you provide.
+A browser extension for developers to create their own custom Reddit interfaces
+using HTML and CSS. The built-in code editor makes theme creation a breeze. Also
+comes with a number of premade themes.
 
 Available for
 [Chrome](https://chrome.google.com/webstore/detail/reddit-json-ui/fkjkklmekbggnhjjldbcpbdcijcmbmoi)
 and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/reddit-json-ui/).
 
-## What?
+| Theme Example                                          | Editor                                   |
+| ------------------------------------------------------ | ---------------------------------------- |
+| ![HackerNews](assets/screenshots/hackernews-theme.png) | ![Editor](assets/screenshots/editor.png) |
+
+## How it works
 
 Reddit offers a public JSON API that is accessible by appending `.json` to the
 end of a lot of URLs. Check out an example:
 https://old.reddit.com/r/popular.json. The extension works by fetching the
-current page's JSON and applying your own HTML and CSS to provide a customized
-user experience.
-
-|                         Theme                          |                  Editor                  |
-| :----------------------------------------------------: | :--------------------------------------: |
-| ![HackerNews](assets/screenshots/hackernews-theme.png) | ![Editor](assets/screenshots/editor.png) |
+current page's JSON and injecting the results into
+[Handlebars](https://handlebarsjs.com/) templates you define.
 
 # Creating your first theme
 
 A guide to creating themes from scratch can be found on the Wiki page
 [Your First Theme](https://github.com/dan-lovelace/reddit-json-ui/wiki/Your-First-Theme).
+Additionally, you may inspect any of the premade themes for inspiration by
+navigating to [packages/core/src/themes](./packages/core/src/themes).
 
 # Template API
 
 API documentation can be found on the Wiki page
 [Template API](https://github.com/dan-lovelace/reddit-json-ui/wiki/Template-API).
+Feedback for the docs is welcome along with feature requests. Please
+[open a new issue](https://github.com/dan-lovelace/reddit-json-ui/issues/new) to
+start a discussion or follow the [Contributing](#contributing) guidelines to get
+involved directly.
+
+# Contributing
+
+Reddit JSON UI is open source and looking for contributors! If you'd like to
+make changes, first check
+[open issues](https://github.com/dan-lovelace/reddit-json-ui/issues) to see if
+anyone else is working in a similar area. To make a change:
+
+1. Follow the [Local Development](#local-development) section below to get up
+   and running locally
+1. Create a new branch with a name that describes the types of changes being
+   made (i.e. `feature/gif-previews`)
+1. Make code changes locally, testing as you go
+1. Once you're happy with the updates:
+   [create a new PR](https://github.com/dan-lovelace/reddit-json-ui/compare),
+   fill out the template and assign another contributor
 
 # Local Development
 
 ## Requirements
 
-| Name                                                   | Version  |
-| ------------------------------------------------------ | -------- |
-| [NodeJS](https://nodejs.org/en/blog/release/v16.16.0/) | v16      |
-| [Yarn](https://yarnpkg.com/)                           | v1.22.19 |
+- [NodeJS](https://nodejs.org/en/blog/release/v16.16.0/) v16
+- [Yarn](https://yarnpkg.com/) v1.22.19
 
 ## 1. Install
 
@@ -61,8 +82,9 @@ for testing.
 | `yarn build 3` | Creates a build using Manifest V3                                                |
 
 <sup>+</sup> If you'd instead like to develop using V2, you'll need to copy the
-contents of `assets/manifest-v2.json` into
-`packages/content/public/manifest.json` and run a clean build.
+contents of [assets/manifest-v2.json](./assets/manifest-v2.json) into
+[packages/content/public/manifest.json](./packages/content/public/manifest.json)
+and run a clean build. Be sure to remove the `$schema` property after doing so.
 
 ## 3. Add browser extension
 
