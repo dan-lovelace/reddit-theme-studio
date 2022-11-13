@@ -5,8 +5,9 @@ using HTML and CSS. The built-in code editor makes theme creation a breeze. Also
 comes with a number of premade themes.
 
 Available for
-[Chrome](https://chrome.google.com/webstore/detail/reddit-json-ui/fkjkklmekbggnhjjldbcpbdcijcmbmoi)
-and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/reddit-json-ui/).
+[Chrome](https://chrome.google.com/webstore/detail/reddit-theme-studio/fkjkklmekbggnhjjldbcpbdcijcmbmoi)
+and
+[Firefox](https://addons.mozilla.org/en-US/firefox/addon/reddit-theme-studio/).
 
 | Theme Example                                          | Editor                                   |
 | ------------------------------------------------------ | ---------------------------------------- |
