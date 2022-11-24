@@ -1,9 +1,30 @@
-import { browser } from "@rts/core";
+import { browser, STORAGE_KEYS } from "@rts/core";
+import { TCurrentTheme } from "@rts/types";
+
+const { CURRENT_THEME } = STORAGE_KEYS;
 
 function main() {
-  browser.runtime.onInstalled.addListener(() => {
-    browser.action.disable();
+  const { manifest_version } = browser.runtime.getManifest();
 
+  browser.runtime.onInstalled.addListener(async () => {
+    // apply default theme if no current theme exists such as in a fresh install
+    const storedCurrentTheme = await browser.storage.local.get(CURRENT_THEME);
+    const currentTheme = storedCurrentTheme[CURRENT_THEME];
+
+    if (!currentTheme) {
+      const defaultTheme: TCurrentTheme = {
+        id: "default",
+        label: "Default",
+        type: "premade",
+      };
+
+      await browser.storage.local.set({
+        [CURRENT_THEME]: defaultTheme,
+      });
+    }
+
+    // enable/disable browser action based on selected tab
+    browser.action.disable();
     browser.declarativeContent.onPageChanged.removeRules(undefined, () => {
       browser.declarativeContent.onPageChanged.addRules([
         {
@@ -28,7 +49,6 @@ function main() {
     browser.tabs.sendMessage(tabId, message);
   });
 
-  const { manifest_version } = browser.runtime.getManifest();
   if (manifest_version === 2) {
     browser.webRequest.onBeforeRequest.addListener(
       (details) => {
@@ -36,9 +56,8 @@ function main() {
         // needs both legacy and redesign domains but we only want to block
         // stylesheets for legacy to avoid an infinite loop in redesign.
         const { hostname } = new URL(String(details.originUrl));
-        const cancel = hostname === "old.reddit.com";
 
-        return { cancel };
+        return { cancel: hostname === "old.reddit.com" };
       },
       {
         // urls must include initiator origin (reddit.com)

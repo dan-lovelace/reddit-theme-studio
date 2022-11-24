@@ -1,9 +1,10 @@
 import { browser, STORAGE_KEYS } from "@rts/core";
 import { TConfig, TCurrentTheme, TTheme } from "@rts/types";
 
-import hackerNews from "./hackerNews";
-import mako from "./mako";
-import rustic from "./rustic";
+import defaultTheme from "./default";
+import hackerNewsTheme from "./hackerNews";
+import makoTheme from "./mako";
+import rusticTheme from "./rustic";
 
 const { CURRENT_THEME, CUSTOM_THEMES } = STORAGE_KEYS;
 
@@ -24,7 +25,12 @@ const helpTheme: TTheme = {
   },
 };
 
-export const premadeThemes = [hackerNews, mako, rustic];
+export const premadeThemes = [
+  defaultTheme,
+  hackerNewsTheme,
+  makoTheme,
+  rusticTheme,
+];
 
 export function applyTheme(theme: TTheme) {
   const newTheme: TCurrentTheme = {
