@@ -2,7 +2,7 @@
   "name": "reddit-theme-studio",
   "description": "A browser extension for creating custom Reddit themes using HTML and CSS",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "workspaces": [
     "packages/*"
