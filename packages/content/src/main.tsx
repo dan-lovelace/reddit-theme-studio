@@ -13,6 +13,7 @@ async function main() {
 
   const { documentElement } = document;
   const currentTheme = await getCurrentTheme(config);
+
   if (currentTheme) {
     // add configuration mode to html element class list to support styling
     // legacy and redesign separately
@@ -25,7 +26,9 @@ async function main() {
         // stylsheet resources, as seen in the legacy handler, creates an
         // infinite loop with reddit's javascript and will eventually crash the
         // browser.
-        const styles = document.head.querySelectorAll("style");
+        const styles = (
+          document.head || document.getElementsByTagName("head")[0]
+        ).querySelectorAll("style");
         for (const styleEl of styles) {
           styleEl.remove();
         }
@@ -33,10 +36,10 @@ async function main() {
       }
 
       case "legacy": {
-        // legacy styles are loaded through stylesheet files and are blocked at
-        // the network level using the declarativeNetRequest permission and
-        // ruleset in manifest v3 (see: content/public/request_rules.json) and
-        // web request blocking in v2 (see: background/src/index.ts).
+        // legacy styles are loaded through stylesheet files. they are blocked
+        // at the network level using the declarativeNetRequest API and ruleset
+        // in manifest v3 (see: packages/content/public/request_rules.json).
+        // v2 uses web request blocking (see: packages/background/src/index.ts).
         break;
       }
     }
