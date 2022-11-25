@@ -154,20 +154,20 @@ button:hover {
 .page-wrapper__sidebar {
   grid-row: 1 / 3;
   border-right: 1px solid #F0F0F0;
-  padding: 1rem;
+  padding: 16px;
   overflow-y: auto;
 }
 
 .page-wrapper__sidebar .logo {
   width: 36px;
   height: 36px;
-  margin-right: 1rem;
-  margin-bottom: 1rem;
+  margin-right: 16px;
+  margin-bottom: 16px;
 }
 
 .page-wrapper__sidebar .subreddits a {
   display: block;
-  padding: 0.25rem 0.5rem;
+  padding: 4px 8px;
   border-radius: 4px !important;
   transition: background-color 150ms;
   white-space: inherit;
@@ -181,18 +181,18 @@ button:hover {
 
 .page-wrapper__content {
   overflow-y: auto;
-  padding: 1rem;
+  padding: 16px;
 }
 
 .page-wrapper__footer {
   grid-column: 2 / -1;
-  padding: 1rem;
+  padding: 16px;
   border-top: 1px solid #F0F0F0;
   text-align: right;
 }
 
 .post-result {
-  margin-bottom: 0.5rem;
+  margin-bottom: 8px;
 }
 
 .post-result__container {
@@ -205,7 +205,7 @@ button:hover {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  margin-right: 0.5rem;
+  margin-right: 8px;
 }
 
 .post-result__meta {
@@ -214,19 +214,19 @@ button:hover {
 
 .comments-layout__container > .comments-partial {
   background-color: #F0F0F0;
-  padding: 0.25rem;
+  padding: 4px;
   border-radius: 4px !important;
 }
 
 .comments-partial {
-  margin-bottom: 0.5rem;
+  margin-bottom: 8px;
   font-size: 0.75rem;
 }
 
 .comments-partial__body {
   color: #000000;
-  margin-bottom: 1rem;
-  margin-left: 1.15rem;
+  margin-bottom: 16px;
+  margin-left: 18px;
   font-size: 0.8rem;
 }
 
@@ -235,11 +235,11 @@ button:hover {
 }
 
 .comments-partial__body p {
-  margin: 0.25rem 0;
+  margin: 4px 0;
 }
 
 .comments-partial__children {
-  margin-left: 1.15rem;
+  margin-left: 18px;
 }
 
 .comments-partial__details summary {
@@ -278,12 +278,11 @@ button:hover {
 }
 
 .comments-partial__details summary p {
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
+  margin: 4px 0;
 }
 
 .comments-post__preview {
-  margin: 1rem 0;
+  margin: 16px 0;
 }
 
 .comments-post__preview img, video {

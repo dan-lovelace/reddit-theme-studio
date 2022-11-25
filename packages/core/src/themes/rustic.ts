@@ -126,22 +126,22 @@ const theme: TTheme = {
     },
     style: `
 blockquote {
-  margin: 0.5rem;
-  padding: 0.5rem;
+  margin: 8px;
+  padding: 8px;
   background-color: white;
   border: 1px solid lightgrey;
-  border-left: 0.25rem solid lightgrey;
+  border-left: 4px solid lightgrey;
 }
 
 button {
   border: 1px solid lightgrey;
-  margin-right: 0.25rem;
+  margin-right: 4px;
 }
 
 .page-layout {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   color: grey;
-  padding: 1rem;
+  padding: 16px;
 }
 
 .page-layout a {
@@ -153,20 +153,20 @@ button {
   display: flex;
   align-items: center;
   overflow: hidden;
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
 }
 
 .page-header__logo a {
   display: flex;
   align-items: center;
-  margin-right: 1rem;
+  margin-right: 16px;
   font-weight: bold;
 }
 
 .page-header__logo img {
   width: 24px;
   height: 24px;
-  margin-right: 0.5rem;
+  margin-right: 8px;
 }
 
 .page-header__subreddit {
@@ -175,13 +175,13 @@ button {
 }
 
 .page-header__subreddit__separator {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
+  margin-left: 8px;
+  margin-right: 8px;
 }
 
 .post-list__list {
   list-style: auto;
-  margin-top: 1rem;
+  margin-top: 16px;
 }
 
 .post-result__title a {
@@ -193,7 +193,7 @@ button {
 }
 
 .post-result {
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
 }
 
 .post-result__container {
@@ -205,9 +205,9 @@ button {
 }
 
 .post-result__points {
-  min-width: 4.25rem;
+  min-width: 68px;
   font-weight: bold;
-  margin-left: 0.5rem;
+  margin-left: 8px;
 }
 
 .post-result__thumbnail {
@@ -216,24 +216,24 @@ button {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  margin-right: 0.5rem;
+  margin-right: 8px;
 }
 
 .comments-layout__container > .comments-partial {
   border: 1px solid lightgrey;
   background-color: #FAF9F6;
-  padding: 0.25rem;
+  padding: 4px;
 }
 
 .comments-partial {
-  margin-bottom: 0.5rem;
+  margin-bottom: 8px;
   font-size: 0.75rem;
 }
 
 .comments-partial__body {
   color: #000000;
-  margin-bottom: 1rem;
-  margin-left: 1.15rem;
+  margin-bottom: 16px;
+  margin-left: 18px;
   font-size: 1rem;
 }
 
@@ -242,11 +242,11 @@ button {
 }
 
 .comments-partial__body p {
-  margin: 0.5rem 0;
+  margin: 8px 0;
 }
 
 .comments-partial__children {
-  margin-left: 1.15rem;
+  margin-left: 18px;
 }
 
 .comments-partial__details summary {
@@ -270,12 +270,11 @@ button {
 }
 
 .comments-partial__details summary p {
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
+  margin: 4px 0;
 }
 
 .comments-post__preview {
-  margin: 1rem 0;
+  margin: 16px 0;
 }
 
 .comments-post__preview img, video {
